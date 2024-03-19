@@ -943,6 +943,10 @@ export const ViewGameDialog = (props: DialogProps) => {
     }
   }, [id])
 
+  useEffect(() => {
+    console.log(loading)
+  }, [loading])
+
   const onScoreClick = async (
     index: number,
     new_scorer: string,
@@ -1523,6 +1527,10 @@ export const UploadScheduleDialog = (props: DialogProps) => {
   const [uploadedSchedule, setUploadedSchedule] = useState<string>("")
   const [fileName, setFileName] = useState<string>("")
   const [loading, setLoading] = useState<boolean>(false)
+
+  useEffect(() => {
+    console.log(loading)
+  }, [loading])
 
   const handleFileChange = (event: any) => {
     const file = event.target.files[0]
