@@ -1,23 +1,15 @@
-import { Fragment, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import {
   Box,
-  Button,
   Card,
-  CardMedia,
   Grid,
   Typography,
-  CardHeader,
-  Avatar,
-  IconButton,
   CardContent,
   Chip,
-  CardActions,
   Link,
   Stack,
 } from "@mui/material"
-import { FiberManualRecordRounded as DotIcon } from "@mui/icons-material"
-import { FIREBASE_AUTH, FIRESTORE_DB } from "../../api/firebase"
-import { useAuthStore } from "../../store/store"
+import { FIRESTORE_DB } from "../../api/firebase"
 import { collection, onSnapshot, orderBy, query } from "firebase/firestore"
 import "react-perfect-scrollbar/dist/css/styles.css"
 import PerfectScrollbar from "react-perfect-scrollbar"
@@ -27,7 +19,6 @@ import moment from "moment"
 const Dashboard = () => {
   const [games, setGames] = useState<any>()
   const [courts, setCourts] = useState<any>()
-  const [loading, setLoading] = useState<boolean>(false)
   // Dialogs
   const [dialogId, setDialogId] = useState<string>("")
   const [openViewDialog, setOpenViewDialog] = useState<boolean>(false)
@@ -47,7 +38,6 @@ const Dashboard = () => {
                   return num1 - num2
                 })
             )
-            setLoading(false)
           },
         })
       } catch (error: any) {
@@ -66,7 +56,6 @@ const Dashboard = () => {
                 ...doc.data(),
               }))
             )
-            setLoading(false)
           },
         })
       } catch (error: any) {

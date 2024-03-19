@@ -1,13 +1,7 @@
-import {
-  collection,
-  onSnapshot,
-  orderBy,
-  query,
-  where,
-} from "firebase/firestore"
+import { collection, onSnapshot, query, where } from "firebase/firestore"
 import { FIRESTORE_DB } from "../../api/firebase"
 import { useEffect, useState } from "react"
-import { Box, Button, IconButton, Typography } from "@mui/material"
+import { Box, Button, Typography } from "@mui/material"
 import styles from "../../styles/display.module.css"
 import logo from "../../../src/assets/img/logo.png"
 import { useAuthStore } from "../../store/store"

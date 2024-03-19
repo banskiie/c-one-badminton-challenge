@@ -21,8 +21,6 @@ import {
   ExpandLessRounded as ExpandLessIcon,
   ExpandMoreRounded as ExpandMoreIcon,
   CloudUploadRounded as UploadIcon,
-  AddCircleRounded as AddIcon,
-  Remove,
 } from "@mui/icons-material"
 import { useEffect, useReducer, useState } from "react"
 import { FIRESTORE_DB } from "../../api/firebase"
