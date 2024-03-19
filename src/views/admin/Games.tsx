@@ -6,7 +6,6 @@ import {
   IconButton,
   LinearProgress,
   Typography,
-  Input,
 } from "@mui/material"
 import {
   EditNote as EditIcon,

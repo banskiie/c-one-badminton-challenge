@@ -133,6 +133,10 @@ export const GameFormDialog = (props: DialogProps) => {
     }
   }, [])
 
+  useEffect(() => {
+    if (sets) console.log(sets, loading)
+  }, [sets])
+
   // Get Edit Data & Collapse Menu Handler
   useEffect(() => {
     if (id) {
