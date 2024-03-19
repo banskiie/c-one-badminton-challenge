@@ -919,12 +919,10 @@ export const GameFormDialog = (props: DialogProps) => {
 export const ViewGameDialog = (props: DialogProps) => {
   const { open, onClose, id } = props
   const [data, setData] = useState<any | null>(null)
-  const [loading, setLoading] = useState<boolean>(false)
 
   useEffect(() => {
     if (id) {
       const fetchGameData = async () => {
-        setLoading(true)
         try {
           const ref = doc(FIRESTORE_DB, `games_test/${id}`)
           onSnapshot(ref, {
@@ -934,18 +932,12 @@ export const ViewGameDialog = (props: DialogProps) => {
           })
         } catch (error: any) {
           console.error(error)
-        } finally {
-          setLoading(false)
         }
       }
 
       fetchGameData()
     }
   }, [id])
-
-  useEffect(() => {
-    console.log(loading)
-  }, [loading])
 
   const onScoreClick = async (
     index: number,
@@ -1526,11 +1518,6 @@ export const UploadScheduleDialog = (props: DialogProps) => {
   const { open, onClose } = props
   const [uploadedSchedule, setUploadedSchedule] = useState<string>("")
   const [fileName, setFileName] = useState<string>("")
-  const [loading, setLoading] = useState<boolean>(false)
-
-  useEffect(() => {
-    console.log(loading)
-  }, [loading])
 
   const handleFileChange = (event: any) => {
     const file = event.target.files[0]
@@ -1557,7 +1544,6 @@ export const UploadScheduleDialog = (props: DialogProps) => {
 
   const handleUpload = async () => {
     if (uploadedSchedule) {
-      setLoading(true)
       try {
         const sched = JSON.parse(uploadedSchedule)
         sched.map((item: any) => {
@@ -1632,9 +1618,7 @@ export const UploadScheduleDialog = (props: DialogProps) => {
         reset()
       } catch (error) {
         console.error("Error parsing JSON:", error)
-      } finally {
-        setLoading(false)
-      }
+      } 
     }
   }
 
