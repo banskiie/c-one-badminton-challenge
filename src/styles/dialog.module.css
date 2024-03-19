@@ -1,0 +1,53 @@
+.scoresheet,
+.players {
+    overflow-x: auto;
+    height: 168px;
+}
+
+.a_box,
+.b_box {
+    border: solid 1px gray;
+    height: 28px;
+    width: 28px;
+    text-wrap: nowrap;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.b_box {
+    background-color: lightgray;
+}
+
+.players {
+    width: 270px;
+}
+
+.a_player,
+.b_player {
+    border: solid 1px gray;
+    height: 28px;
+    text-wrap: nowrap;
+    display: flex;
+    align-items: center;
+    padding-left: 5px;
+}
+
+.b_player {
+    background-color: lightgray;
+}
+
+.actions {
+    margin: 0 8px 8px;
+}
+
+@media print {
+    @page {
+        size: landscape;
+    }
+
+    .actions {
+        display: none !important
+    }
+}

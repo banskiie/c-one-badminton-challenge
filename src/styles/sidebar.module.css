@@ -1,0 +1,14 @@
+/* Navlink Active Highlight */
+:global .active {
+    color: black !important;
+    background-color: #f1f1f1 !important;
+}
+
+.item {
+    border-radius: 0.5rem !important;
+    transition: all 0.2s ease-in-out !important;
+}
+
+.item_label {
+    font-weight: 900 !important;
+}

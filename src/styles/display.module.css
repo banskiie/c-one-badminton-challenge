@@ -1,0 +1,100 @@
+@import url('https://fonts.googleapis.com/css2?family=Sofia+Sans+Extra+Condensed:ital,wght@0,1..1000;1,1..1000&display=swap');
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100vh;
+    overflow: hidden;
+    color: white !important;
+}
+
+.placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.header {
+    height: 10%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2%;
+    background-color: white;
+    cursor: pointer;
+}
+
+.header_text {
+    font-family: "Sofia Sans Extra Condensed", sans-serif !important;
+    font-weight: 700 !important;
+    text-transform: uppercase;
+    font-size: 70px !important;
+    width: 33%;
+    color: black;
+}
+
+.scoreboard {
+    height: 90%;
+    width: 100%;
+    display: flex;
+    background-color: #141414;
+}
+
+.players {
+    width: 78%;
+    height: 100%;
+    padding-left: 2%;
+}
+
+.team {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    height: 50%;
+}
+
+.player {
+    font-family: "Sofia Sans Extra Condensed", sans-serif !important;
+    font-size: 165px !important;
+    font-weight: 800 !important;
+    text-transform: uppercase;
+}
+
+.sets {
+    width: 5%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.set {
+    font-family: "Sofia Sans Extra Condensed", sans-serif !important;
+    font-size: 120px !important;
+    font-weight: 800 !important;
+}
+
+.scores {
+    width: 17%;
+    height: 100%;
+}
+
+.score_container {
+    width: 100%;
+    height: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.score {
+    font-family: "Sofia Sans Extra Condensed", sans-serif !important;
+    font-size: 360px !important;
+    font-weight: 800 !important;
+}
