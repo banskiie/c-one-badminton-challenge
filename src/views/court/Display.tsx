@@ -12,6 +12,7 @@ export default () => {
   const user = useAuthStore((state) => state.user)
   const updateUser = useAuthStore((state) => state.updateUser)
   const [data, setData] = useState<any>()
+  const [hasPlayer2, setHasPlayer2] = useState<boolean>(false)
 
   useEffect(() => {
     const ref = collection(FIRESTORE_DB, "games_test")
@@ -26,9 +27,18 @@ export default () => {
           if (!snapshot.empty) {
             snapshot.docs.map((doc: any) => {
               setData(doc.data())
+              if (
+                doc.data().players.team_a.player_2.first_name &&
+                doc.data().players.team_b.player_2.first_name
+              ) {
+                setHasPlayer2(true)
+              } else {
+                setHasPlayer2(false)
+              }
             })
           } else {
             setData(null)
+            setHasPlayer2(true)
           }
         },
       }
@@ -78,9 +88,14 @@ export default () => {
           <Box className={styles.scoreboard}>
             <Box className={styles.players}>
               {/* Team A */}
-              <Box className={styles.team} sx={{ justifyContent: "flex-end" }}>
+              <Box
+                className={styles.team}
+                sx={{
+                  justifyContent: hasPlayer2 ? "flex-end" : "center",
+                }}
+              >
                 <Typography
-                  className={styles.player}
+                  className={hasPlayer2 ? styles.player : ""}
                   sx={{
                     color:
                       data?.sets[`set_${data?.details.playing_set}`].scoresheet[
@@ -89,34 +104,43 @@ export default () => {
                       ]?.scorer === "a1"
                         ? "#ed6c02"
                         : "white",
+                    fontSize: 260,
+                    fontFamily: "Sofia Sans Extra Condensed",
+                    fontWeight: 800,
+                    textTransform: "uppercase",
                   }}
                 >
                   {data?.players.team_a.player_1.first_name[0]}.{" "}
                   {data?.players.team_a.player_1.last_name}
                 </Typography>
-                <Typography
-                  className={styles.player}
-                  sx={{
-                    color:
-                      data?.sets[`set_${data?.details.playing_set}`].scoresheet[
+                {hasPlayer2 && (
+                  <Typography
+                    className={styles.player}
+                    sx={{
+                      color:
                         data?.sets[`set_${data?.details.playing_set}`]
-                          .scoresheet.length - 1
-                      ]?.scorer === "a2"
-                        ? "#ed6c02"
-                        : "white",
-                  }}
-                >
-                  {data?.players.team_a.player_2.first_name[0]}.{" "}
-                  {data?.players.team_a.player_2.last_name}
-                </Typography>
+                          .scoresheet[
+                          data?.sets[`set_${data?.details.playing_set}`]
+                            .scoresheet.length - 1
+                        ]?.scorer === "a2"
+                          ? "#ed6c02"
+                          : "white",
+                    }}
+                  >
+                    {data?.players.team_a.player_2.first_name[0]}.{" "}
+                    {data?.players.team_a.player_2.last_name}
+                  </Typography>
+                )}
               </Box>
               {/* Team B */}
               <Box
                 className={styles.team}
-                sx={{ justifyContent: "flex-start" }}
+                sx={{
+                  justifyContent: hasPlayer2 ? "flex-start" : "center",
+                }}
               >
                 <Typography
-                  className={styles.player}
+                  className={hasPlayer2 ? styles.player : ""}
                   sx={{
                     color:
                       data?.sets[`set_${data?.details.playing_set}`].scoresheet[
@@ -125,26 +149,33 @@ export default () => {
                       ]?.scorer === "b1"
                         ? "#1F7D1F"
                         : "white",
+                    fontSize: 260,
+                    fontFamily: "Sofia Sans Extra Condensed",
+                    fontWeight: 800,
+                    textTransform: "uppercase",
                   }}
                 >
                   {data?.players.team_b.player_1.first_name[0]}.{" "}
                   {data?.players.team_b.player_1.last_name}
                 </Typography>
-                <Typography
-                  className={styles.player}
-                  sx={{
-                    color:
-                      data?.sets[`set_${data?.details.playing_set}`].scoresheet[
+                {hasPlayer2 && (
+                  <Typography
+                    className={styles.player}
+                    sx={{
+                      color:
                         data?.sets[`set_${data?.details.playing_set}`]
-                          .scoresheet.length - 1
-                      ]?.scorer === "b2"
-                        ? "#1F7D1F"
-                        : "white",
-                  }}
-                >
-                  {data?.players.team_b.player_2.first_name[0]}.{" "}
-                  {data?.players.team_b.player_2.last_name}
-                </Typography>
+                          .scoresheet[
+                          data?.sets[`set_${data?.details.playing_set}`]
+                            .scoresheet.length - 1
+                        ]?.scorer === "b2"
+                          ? "#1F7D1F"
+                          : "white",
+                    }}
+                  >
+                    {data?.players.team_b.player_2.first_name[0]}.{" "}
+                    {data?.players.team_b.player_2.last_name}
+                  </Typography>
+                )}
               </Box>
             </Box>
             <Box className={styles.sets}>

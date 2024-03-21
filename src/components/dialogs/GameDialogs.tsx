@@ -1000,7 +1000,9 @@ export const ViewGameDialog = (props: DialogProps) => {
           },
         },
       })
-    } catch (error: unknown) {}
+    } catch (error: unknown) {
+      console.error(error)
+    }
   }
 
   return (
@@ -1618,7 +1620,7 @@ export const UploadScheduleDialog = (props: DialogProps) => {
         reset()
       } catch (error) {
         console.error("Error parsing JSON:", error)
-      } 
+      }
     }
   }
 
