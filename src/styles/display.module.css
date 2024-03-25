@@ -32,7 +32,7 @@
     font-family: "Sofia Sans Extra Condensed", sans-serif !important;
     font-weight: 700 !important;
     text-transform: uppercase;
-    font-size: 70px !important;
+    font-size: 50px !important;
     width: 33%;
     color: black;
 }
@@ -60,7 +60,7 @@
 
 .player {
     font-family: "Sofia Sans Extra Condensed", sans-serif !important;
-    font-size: 165px !important;
+    font-size: 110px !important;
     font-weight: 800 !important;
     text-transform: uppercase;
 }
@@ -95,6 +95,6 @@
 
 .score {
     font-family: "Sofia Sans Extra Condensed", sans-serif !important;
-    font-size: 360px !important;
+    font-size: 240px !important;
     font-weight: 800 !important;
 }
