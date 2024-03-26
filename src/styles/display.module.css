@@ -45,9 +45,8 @@
 }
 
 .players {
-    width: 78%;
+    width: 83%;
     height: 100%;
-    padding-left: 2%;
 }
 
 .team {
@@ -59,6 +58,7 @@
 }
 
 .player {
+    padding-left: 2%;
     font-family: "Sofia Sans Extra Condensed", sans-serif !important;
     font-size: 110px !important;
     font-weight: 800 !important;

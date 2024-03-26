@@ -399,7 +399,7 @@ export const GameFormDialog = (props: DialogProps) => {
                                 }}
                               >
                                 <MenuItem value="upcoming">Upcoming</MenuItem>
-                                <MenuItem value="on going">On Going</MenuItem>
+                                <MenuItem value="current">Playing</MenuItem>
                                 <MenuItem value="forfeit">Forfeit</MenuItem>
                                 <MenuItem value="no match">No Match</MenuItem>
                                 <MenuItem value="finished">Finished</MenuItem>

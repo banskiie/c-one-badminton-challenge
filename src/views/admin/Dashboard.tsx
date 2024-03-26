@@ -164,7 +164,7 @@ const Dashboard = () => {
                         "minutes"
                       )
                       // If there is a live game
-                      if (game.statuses.current === "on going") {
+                      if (game.statuses.current === "current") {
                         let hasPlayer2 = !!(
                           game.players.team_a.player_2.first_name &&
                           game.players.team_a.player_2.last_name

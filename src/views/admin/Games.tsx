@@ -306,7 +306,7 @@ export default () => {
           case "upcoming":
             color = "default"
             break
-          case "on going":
+          case "current":
             color = "info"
             break
           case "forfeit":

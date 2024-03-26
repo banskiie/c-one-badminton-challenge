@@ -68,7 +68,7 @@ type Officials = {
 
 // Status
 type Statuses = {
-  current: "upcoming" | "on going" | "forfeit" | "no match" | "finished"
+  current: "upcoming" | "current" | "forfeit" | "no match" | "finished"
   active: boolean
 }
 
