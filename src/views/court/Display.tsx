@@ -1,7 +1,7 @@
 import { collection, onSnapshot, query, where } from "firebase/firestore"
 import { FIRESTORE_DB } from "../../api/firebase"
 import { useEffect, useState } from "react"
-import { Box, Button, Typography } from "@mui/material"
+import { Box, Button, Chip, Typography } from "@mui/material"
 import styles from "../../styles/display.module.css"
 import logo from "../../../src/assets/img/logo.png"
 import { useAuthStore } from "../../store/store"
@@ -46,12 +46,6 @@ export default () => {
 
     return () => subscriber()
   }, [])
-
-  useEffect(() => {
-    if (data) {
-      console.log(data)
-    }
-  }, [data])
 
   const signOut = async () => {
     try {
@@ -101,7 +95,9 @@ export default () => {
                       data?.sets[`set_${data?.details.playing_set}`].scoresheet[
                         data?.sets[`set_${data?.details.playing_set}`]
                           .scoresheet.length - 1
-                      ]?.scorer === "a1"
+                      ]?.scorer === "a1" ||
+                      data?.sets[`set_${data?.details.playing_set}`].winner ===
+                        "a"
                         ? "#ed6c02"
                         : "white",
                     fontSize: 260,
@@ -111,7 +107,7 @@ export default () => {
                   }}
                 >
                   {data?.players.team_a.player_1.first_name[0]}.{" "}
-                  {data?.players.team_a.player_1.last_name}
+                  {data?.players.team_a.player_1.last_name}{" "}
                 </Typography>
                 {hasPlayer2 && (
                   <Typography
@@ -122,7 +118,9 @@ export default () => {
                           .scoresheet[
                           data?.sets[`set_${data?.details.playing_set}`]
                             .scoresheet.length - 1
-                        ]?.scorer === "a2"
+                        ]?.scorer === "a2" ||
+                        data?.sets[`set_${data?.details.playing_set}`]
+                          .winner === "a"
                           ? "#ed6c02"
                           : "white",
                     }}
@@ -146,7 +144,9 @@ export default () => {
                       data?.sets[`set_${data?.details.playing_set}`].scoresheet[
                         data?.sets[`set_${data?.details.playing_set}`]
                           .scoresheet.length - 1
-                      ]?.scorer === "b1"
+                      ]?.scorer === "b1" ||
+                      data?.sets[`set_${data?.details.playing_set}`].winner ===
+                        "b"
                         ? "#1F7D1F"
                         : "white",
                     fontSize: 260,
@@ -167,7 +167,9 @@ export default () => {
                           .scoresheet[
                           data?.sets[`set_${data?.details.playing_set}`]
                             .scoresheet.length - 1
-                        ]?.scorer === "b2"
+                        ]?.scorer === "b2" ||
+                        data?.sets[`set_${data?.details.playing_set}`]
+                          .winner === "b"
                           ? "#1F7D1F"
                           : "white",
                     }}
@@ -179,8 +181,38 @@ export default () => {
               </Box>
             </Box>
             <Box className={styles.sets}>
-              <Typography className={styles.set}></Typography>
-              <Typography className={styles.set}></Typography>
+              <Box
+                sx={{
+                  width: "100%",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <Typography variant="h1" className={styles.set}>
+                  {
+                    Object.values(data.sets).filter(
+                      (set: any) => set.winner === "a"
+                    ).length
+                  }
+                </Typography>
+              </Box>
+              <Box
+                sx={{
+                  width: "100%",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <Typography variant="h1" className={styles.set}>
+                  {
+                    Object.values(data.sets).filter(
+                      (set: any) => set.winner === "b"
+                    ).length
+                  }
+                </Typography>
+              </Box>
             </Box>
             <Box
               className={styles.scores}

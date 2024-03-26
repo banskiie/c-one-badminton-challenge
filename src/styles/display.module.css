@@ -45,7 +45,7 @@
 }
 
 .players {
-    width: 83%;
+    width: 78%;
     height: 100%;
 }
 
@@ -63,6 +63,8 @@
     font-size: 110px !important;
     font-weight: 800 !important;
     text-transform: uppercase;
+    display: flex;
+    align-items: center;
 }
 
 .sets {
@@ -76,7 +78,7 @@
 
 .set {
     font-family: "Sofia Sans Extra Condensed", sans-serif !important;
-    font-size: 120px !important;
+    font-size: 100px !important;
     font-weight: 800 !important;
 }
 
