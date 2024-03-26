@@ -42,7 +42,7 @@ export default () => {
   useEffect(() => {
     const fetchOfficials = async () => {
       try {
-        const ref = collection(FIRESTORE_DB, "games_test")
+        const ref = collection(FIRESTORE_DB, "games")
         onSnapshot(query(ref, orderBy("time.slot", "desc")), {
           next: (snapshot) => {
             setGames(

@@ -143,7 +143,7 @@ export const GameFormDialog = (props: DialogProps) => {
       const fetchData = async () => {
         setLoading(true)
         try {
-          const ref = doc(FIRESTORE_DB, `games_test/${id}`)
+          const ref = doc(FIRESTORE_DB, `games/${id}`)
           const gameDoc = await getDoc(ref)
           const data = gameDoc.data()
           if (data) {
@@ -284,7 +284,7 @@ export const GameFormDialog = (props: DialogProps) => {
         return
       }
       id
-        ? await updateDoc(doc(FIRESTORE_DB, `games_test/${id}`), {
+        ? await updateDoc(doc(FIRESTORE_DB, `games/${id}`), {
             ...payload,
             time: {
               start: time.start ? time.start.toDate() : null,
@@ -292,7 +292,7 @@ export const GameFormDialog = (props: DialogProps) => {
               end: time.end ? time.end.toDate() : null,
             },
           })
-        : await addDoc(collection(FIRESTORE_DB, "games_test"), {
+        : await addDoc(collection(FIRESTORE_DB, "games"), {
             ...payload,
             time: {
               ...payload.time,
@@ -924,7 +924,7 @@ export const ViewGameDialog = (props: DialogProps) => {
     if (id) {
       const fetchGameData = async () => {
         try {
-          const ref = doc(FIRESTORE_DB, `games_test/${id}`)
+          const ref = doc(FIRESTORE_DB, `games/${id}`)
           onSnapshot(ref, {
             next: (snapshot) => {
               setData(snapshot.data())
@@ -984,7 +984,7 @@ export const ViewGameDialog = (props: DialogProps) => {
       updatedScoresheet[updatedScoresheet.length - 1].current_b_score
 
     try {
-      await updateDoc(doc(FIRESTORE_DB, `games_test/${id}`), {
+      await updateDoc(doc(FIRESTORE_DB, `games/${id}`), {
         ...data,
         sets: {
           ...data.sets,
@@ -1538,7 +1538,7 @@ export const UploadScheduleDialog = (props: DialogProps) => {
 
   const sendSched = async (payload: any) => {
     try {
-      await addDoc(collection(FIRESTORE_DB, "games_test"), payload)
+      await addDoc(collection(FIRESTORE_DB, "games"), payload)
     } catch (error: unknown) {
       console.error(error)
     }

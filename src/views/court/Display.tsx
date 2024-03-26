@@ -15,7 +15,7 @@ export default () => {
   const [hasPlayer2, setHasPlayer2] = useState<boolean>(false)
 
   useEffect(() => {
-    const ref = collection(FIRESTORE_DB, "games_test")
+    const ref = collection(FIRESTORE_DB, "games")
     const subscriber = onSnapshot(
       query(
         ref,

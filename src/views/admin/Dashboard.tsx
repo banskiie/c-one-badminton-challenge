@@ -47,7 +47,7 @@ const Dashboard = () => {
 
     const fetchGames = async () => {
       try {
-        const ref = collection(FIRESTORE_DB, "games_test")
+        const ref = collection(FIRESTORE_DB, "games")
         onSnapshot(query(ref, orderBy("time.slot", "asc")), {
           next: (snapshot) => {
             setGames(
