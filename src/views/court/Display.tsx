@@ -1,7 +1,7 @@
 import { collection, onSnapshot, query, where } from "firebase/firestore"
 import { FIRESTORE_DB } from "../../api/firebase"
 import { useEffect, useState } from "react"
-import { Box, Button, Chip, Typography } from "@mui/material"
+import { Box, Button, Typography } from "@mui/material"
 import styles from "../../styles/display.module.css"
 import logo from "../../../src/assets/img/logo.png"
 import { useAuthStore } from "../../store/store"
@@ -191,7 +191,7 @@ export default () => {
               >
                 <Typography variant="h1" className={styles.set}>
                   {
-                    Object.values(data.sets).filter(
+                    Object.values(data?.sets).filter(
                       (set: any) => set.winner === "a"
                     ).length
                   }
@@ -207,7 +207,7 @@ export default () => {
               >
                 <Typography variant="h1" className={styles.set}>
                   {
-                    Object.values(data.sets).filter(
+                    Object.values(data?.sets).filter(
                       (set: any) => set.winner === "b"
                     ).length
                   }
