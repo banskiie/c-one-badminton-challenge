@@ -100,7 +100,7 @@ export default () => {
                         "a"
                         ? "#ed6c02"
                         : "white",
-                    fontSize: hasPlayer2 ? "inherit" : 200,
+                    fontSize: hasPlayer2 ? "inherit" : 160,
                     fontFamily: "Sofia Sans Extra Condensed",
                     fontWeight: 800,
                     textTransform: "uppercase",
@@ -149,7 +149,7 @@ export default () => {
                         "b"
                         ? "#1F7D1F"
                         : "white",
-                    fontSize: hasPlayer2 ? "inherit" : 200,
+                    fontSize: hasPlayer2 ? "inherit" : 160,
                     fontFamily: "Sofia Sans Extra Condensed",
                     fontWeight: 800,
                     textTransform: "uppercase",
