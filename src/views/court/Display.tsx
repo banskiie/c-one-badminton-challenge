@@ -1,7 +1,7 @@
 import { collection, onSnapshot, query, where } from "firebase/firestore"
 import { FIRESTORE_DB } from "../../api/firebase"
 import { useEffect, useState } from "react"
-import { Box, Button, Typography } from "@mui/material"
+import { Box, Button, Stack, Typography } from "@mui/material"
 import styles from "../../styles/display.module.css"
 import logo from "../../../src/assets/img/logo.png"
 import { useAuthStore } from "../../store/store"
@@ -12,6 +12,7 @@ export default () => {
   const user = useAuthStore((state) => state.user)
   const updateUser = useAuthStore((state) => state.updateUser)
   const [data, setData] = useState<any>()
+  const [currentSet, setCurrentSet] = useState<any>()
   const [hasPlayer2, setHasPlayer2] = useState<boolean>(false)
 
   useEffect(() => {
@@ -27,9 +28,14 @@ export default () => {
           if (!snapshot.empty) {
             snapshot.docs.map((doc: any) => {
               setData(doc.data())
+              setCurrentSet(
+                doc.data().sets[`set_${doc.data().details.playing_set}`]
+              )
               if (
                 doc.data().players.team_a.player_2.first_name &&
-                doc.data().players.team_b.player_2.first_name
+                doc.data().players.team_a.player_2.last_name &&
+                doc.data().players.team_b.player_2.first_name &&
+                doc.data().players.team_b.player_2.last_name
               ) {
                 setHasPlayer2(true)
               } else {
@@ -80,116 +86,56 @@ export default () => {
             </Typography>
           </Box>
           <Box className={styles.scoreboard}>
-            <Box className={styles.players}>
-              {/* Team A */}
-              <Box
-                className={styles.team}
-                sx={{
-                  justifyContent: hasPlayer2 ? "flex-end" : "center",
-                }}
-              >
-                <Typography
-                  className={hasPlayer2 ? styles.player : ""}
-                  sx={{
-                    color:
-                      data?.sets[`set_${data?.details.playing_set}`].scoresheet[
-                        data?.sets[`set_${data?.details.playing_set}`]
-                          .scoresheet.length - 1
-                      ]?.scorer === "a1" ||
-                      data?.sets[`set_${data?.details.playing_set}`].winner ===
-                        "a"
-                        ? "#ed6c02"
-                        : "white",
-                    fontSize: hasPlayer2 ? "inherit" : 160,
-                    fontFamily: "Sofia Sans Extra Condensed",
-                    fontWeight: 800,
-                    textTransform: "uppercase",
-                  }}
+            <Box className={styles.team}>
+              <Stack className={styles.players}>
+                <Box
+                  className={styles.player_container}
+                  sx={{ height: hasPlayer2 ? "50%" : "100%" }}
                 >
-                  {data?.players.team_a.player_1.first_name[0]}.{" "}
-                  {data?.players.team_a.player_1.last_name}{" "}
-                </Typography>
-                {hasPlayer2 && (
                   <Typography
-                    className={styles.player}
+                    className={
+                      hasPlayer2
+                        ? styles.player
+                        : `${styles.player} ${styles.single}`
+                    }
                     sx={{
                       color:
-                        data?.sets[`set_${data?.details.playing_set}`]
-                          .scoresheet[
-                          data?.sets[`set_${data?.details.playing_set}`]
-                            .scoresheet.length - 1
-                        ]?.scorer === "a2" ||
-                        data?.sets[`set_${data?.details.playing_set}`]
-                          .winner === "a"
+                        currentSet.scoresheet[currentSet.scoresheet.length - 1]
+                          ?.scorer === "a1" || currentSet.winner === "a"
                           ? "#ed6c02"
                           : "white",
                     }}
                   >
-                    {data?.players.team_a.player_2.first_name[0]}.{" "}
-                    {data?.players.team_a.player_2.last_name}
+                    {data?.players.team_a.player_1.use_nickname
+                      ? data?.players.team_a.player_1.nickname
+                      : `${data?.players.team_a.player_1.first_name[0]}. ${data?.players.team_a.player_1.last_name}`}
                   </Typography>
-                )}
-              </Box>
-              {/* Team B */}
-              <Box
-                className={styles.team}
-                sx={{
-                  justifyContent: hasPlayer2 ? "flex-start" : "center",
-                }}
-              >
-                <Typography
-                  className={hasPlayer2 ? styles.player : ""}
-                  sx={{
-                    color:
-                      data?.sets[`set_${data?.details.playing_set}`].scoresheet[
-                        data?.sets[`set_${data?.details.playing_set}`]
-                          .scoresheet.length - 1
-                      ]?.scorer === "b1" ||
-                      data?.sets[`set_${data?.details.playing_set}`].winner ===
-                        "b"
-                        ? "#1F7D1F"
-                        : "white",
-                    fontSize: hasPlayer2 ? "inherit" : 160,
-                    fontFamily: "Sofia Sans Extra Condensed",
-                    fontWeight: 800,
-                    textTransform: "uppercase",
-                  }}
-                >
-                  {data?.players.team_b.player_1.first_name[0]}.{" "}
-                  {data?.players.team_b.player_1.last_name}
-                </Typography>
+                </Box>
                 {hasPlayer2 && (
-                  <Typography
-                    className={styles.player}
-                    sx={{
-                      color:
-                        data?.sets[`set_${data?.details.playing_set}`]
-                          .scoresheet[
-                          data?.sets[`set_${data?.details.playing_set}`]
-                            .scoresheet.length - 1
-                        ]?.scorer === "b2" ||
-                        data?.sets[`set_${data?.details.playing_set}`]
-                          .winner === "b"
-                          ? "#1F7D1F"
-                          : "white",
-                    }}
-                  >
-                    {data?.players.team_b.player_2.first_name[0]}.{" "}
-                    {data?.players.team_b.player_2.last_name}
-                  </Typography>
+                  <Box className={styles.player_container}>
+                    <Typography
+                      className={styles.player}
+                      sx={{
+                        color:
+                          currentSet.scoresheet[
+                            currentSet.scoresheet.length - 1
+                          ]?.scorer === "a2" || currentSet.winner === "a"
+                            ? "#ed6c02"
+                            : "white",
+                      }}
+                    >
+                      {data?.players.team_a.player_2.use_nickname
+                        ? data?.players.team_a.player_2.nickname
+                        : `${data?.players.team_a.player_2.first_name[0]}. ${data?.players.team_a.player_2.last_name}`}
+                    </Typography>
+                  </Box>
                 )}
-              </Box>
-            </Box>
-            <Box className={styles.sets}>
+              </Stack>
               <Box
-                sx={{
-                  width: "100%",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
+                className={styles.set_container}
+                sx={{ justifyContent: "flex-end" }}
               >
-                <Typography variant="h1" className={styles.set}>
+                <Typography className={styles.set_score}>
                   {
                     Object.values(data?.sets).filter(
                       (set: any) => set.winner === "a"
@@ -198,14 +144,77 @@ export default () => {
                 </Typography>
               </Box>
               <Box
+                className={styles.score_container}
                 sx={{
-                  width: "100%",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
+                  bgcolor:
+                    currentSet.last_team_scored === "a"
+                      ? "#ed6c02"
+                      : "transparent",
                 }}
               >
-                <Typography variant="h1" className={styles.set}>
+                <Typography
+                  className={styles.score}
+                  sx={{
+                    color:
+                      currentSet.last_team_scored === "a"
+                        ? "#141414"
+                        : "#ed6c02",
+                  }}
+                >
+                  {currentSet.a_score}
+                </Typography>
+              </Box>
+            </Box>
+            <Box className={styles.team}>
+              <Stack className={styles.players}>
+                <Box
+                  className={styles.player_container}
+                  sx={{ height: hasPlayer2 ? "50%" : "100%" }}
+                >
+                  <Typography
+                    className={
+                      hasPlayer2
+                        ? styles.player
+                        : `${styles.player} ${styles.single}`
+                    }
+                    sx={{
+                      color:
+                        currentSet.scoresheet[currentSet.scoresheet.length - 1]
+                          ?.scorer === "b1" || currentSet.winner === "b"
+                          ? "#1F7D1F"
+                          : "white",
+                    }}
+                  >
+                    {data?.players.team_b.player_1.use_nickname
+                      ? data?.players.team_b.player_1.nickname
+                      : `${data?.players.team_b.player_1.first_name[0]}. ${data?.players.team_b.player_1.last_name}`}
+                  </Typography>
+                </Box>
+                {hasPlayer2 && (
+                  <Box className={styles.player_container}>
+                    <Typography
+                      className={styles.player}
+                      sx={{
+                        color:
+                          currentSet.scoresheet[
+                            currentSet.scoresheet.length - 1
+                          ]?.scorer === "b2" || currentSet.winner === "b"
+                            ? "#1F7D1F"
+                            : "white",
+                      }}
+                    >
+                      {data?.players.team_b.player_2.use_nickname
+                        ? data?.players.team_b.player_2.nickname
+                        : `${data?.players.team_b.player_2.first_name[0]}. ${data?.players.team_a.player_2.last_name}`}
+                    </Typography>
+                  </Box>
+                )}
+              </Stack>
+              <Box
+                className={styles.set_container}
+                sx={{ justifyContent: "flex-start" }}
+              >
+                <Typography className={styles.set_score}>
                   {
                     Object.values(data?.sets).filter(
                       (set: any) => set.winner === "b"
@@ -213,38 +222,12 @@ export default () => {
                   }
                 </Typography>
               </Box>
-            </Box>
-            <Box
-              className={styles.scores}
-              sx={{
-                color:
-                  data?.sets[`set_${data?.details.playing_set}`]
-                    .last_team_scored === "a"
-                    ? "#1B1212"
-                    : "#ed6c02",
-              }}
-            >
               <Box
-                className={`${styles.score_container}`}
+                key={currentSet.b_score}
+                className={styles.score_container}
                 sx={{
                   bgcolor:
-                    data?.sets[`set_${data?.details.playing_set}`]
-                      .last_team_scored === "a"
-                      ? "#ed6c02"
-                      : "transparent",
-                }}
-              >
-                <Typography className={styles.score}>
-                  {data?.sets[`set_${data?.details.playing_set}`].a_score}
-                </Typography>
-              </Box>
-              <Box
-                key={data?.sets[`set_${data?.details.playing_set}`].b_score}
-                className={`${styles.score_container}`}
-                sx={{
-                  bgcolor:
-                    data?.sets[`set_${data?.details.playing_set}`]
-                      .last_team_scored === "b"
+                    currentSet.last_team_scored === "b"
                       ? "#1F7D1F"
                       : "transparent",
                 }}
@@ -253,13 +236,12 @@ export default () => {
                   className={styles.score}
                   sx={{
                     color:
-                      data?.sets[`set_${data?.details.playing_set}`]
-                        .last_team_scored === "b"
-                        ? "#1B1212"
+                      currentSet.last_team_scored === "b"
+                        ? "#141414"
                         : "#1F7D1F",
                   }}
                 >
-                  {data?.sets[`set_${data?.details.playing_set}`].b_score}
+                  {currentSet.b_score}
                 </Typography>
               </Box>
             </Box>

@@ -57,6 +57,7 @@ export default () => {
                 category: doc.data().details.category,
                 players: doc.data().players,
                 matchup: {
+                  category: doc.data().details.category,
                   game_winner: doc.data().details.game_winner,
                   players: doc.data().players,
                 },
@@ -94,9 +95,10 @@ export default () => {
       headerName: "Category",
       width: 180,
       renderCell: (params: any) => {
+        const category = params.value.split(".")
         return (
           <Typography variant="inherit" textTransform="capitalize">
-            {params.value}
+            {category[0]} ({category[1]})
           </Typography>
         )
       },
@@ -122,6 +124,7 @@ export default () => {
         const winner = params.value.game_winner
         const players = params.value.players
         const { team_a, team_b } = players
+        const hasPlayer2 = params.value.category.split(".")[1] === "doubles"
         return (
           <>
             {!!team_a.player_1.first_name ? (
@@ -149,18 +152,20 @@ export default () => {
                       textAlign="right"
                       variant="inherit"
                     >
-                      {team_a.player_1.first_name} {team_a.player_1.last_name}
+                      {team_a.player_1.use_nickname
+                        ? team_a.player_1.nickname
+                        : `${team_a.player_1.first_name} ${team_a.player_1.last_name}`}
                     </Typography>
-                    {!!(
-                      team_a.player_2.first_name && team_a.player_2.last_name
-                    ) && (
+                    {hasPlayer2 && (
                       <Typography
                         fontWeight={winner == "a" ? 600 : 500}
                         color={winner == "a" ? "green" : "initial"}
                         textAlign="right"
                         variant="inherit"
                       >
-                        {team_a.player_2.first_name} {team_a.player_2.last_name}
+                        {team_a.player_2.use_nickname
+                          ? team_a.player_2.nickname
+                          : `${team_a.player_2.first_name} ${team_a.player_2.last_name}`}
                       </Typography>
                     )}
                   </Box>
@@ -176,18 +181,20 @@ export default () => {
                       variant="inherit"
                       textAlign="left"
                     >
-                      {team_b.player_1.first_name} {team_b.player_1.last_name}
+                      {team_b.player_1.use_nickname
+                        ? team_b.player_1.nickname
+                        : `${team_b.player_1.first_name} ${team_b.player_1.last_name}`}
                     </Typography>
-                    {!!(
-                      team_b.player_2.first_name && team_b.player_2.last_name
-                    ) && (
+                    {hasPlayer2 && (
                       <Typography
                         fontWeight={winner == "b" ? 600 : 500}
                         color={winner == "b" ? "green" : "initial"}
                         variant="inherit"
                         textAlign="left"
                       >
-                        {team_b.player_2.first_name} {team_b.player_2.last_name}
+                        {team_b.player_2.use_nickname
+                          ? team_b.player_2.nickname
+                          : `${team_b.player_2.first_name} ${team_b.player_2.last_name}`}
                       </Typography>
                     )}
                   </Box>

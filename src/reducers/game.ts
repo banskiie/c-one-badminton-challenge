@@ -3,7 +3,12 @@ type Details = {
   created_date: any
   game_no: string
   court: string
-  category: string
+  category:
+    | {
+        name: string
+        type: string
+      }
+    | string
   group_no: string
   no_of_sets: 1 | 3
   max_score: 21 | 31
@@ -57,6 +62,8 @@ type Team = {
 type Player = {
   first_name: string
   last_name: string
+  nickname?: string
+  use_nickname: boolean
 }
 
 // Officials
@@ -115,10 +122,14 @@ export const initialGameState: Game = {
       player_1: {
         first_name: "",
         last_name: "",
+        nickname: "",
+        use_nickname: false,
       },
       player_2: {
         first_name: "",
         last_name: "",
+        nickname: "",
+        use_nickname: false,
       },
     },
     team_b: {
@@ -126,10 +137,14 @@ export const initialGameState: Game = {
       player_1: {
         first_name: "",
         last_name: "",
+        nickname: "",
+        use_nickname: false,
       },
       player_2: {
         first_name: "",
         last_name: "",
+        nickname: "",
+        use_nickname: false,
       },
     },
   },

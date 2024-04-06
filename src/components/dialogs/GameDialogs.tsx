@@ -15,6 +15,8 @@ import {
   TextField,
   Collapse,
   Input,
+  Checkbox,
+  FormControlLabel,
 } from "@mui/material"
 import {
   LocalPrintshopRounded as PrintIcon,
@@ -72,7 +74,7 @@ export const GameFormDialog = (props: DialogProps) => {
   const [detailsOpen, setDetailsOpen] = useState<boolean>(true)
   const [officialsOpen, setOfficialsOpen] = useState<boolean>(true)
   const [playersOpen, setPlayersOpen] = useState<boolean>(true)
-  const [settingsOpen, setSettingsOpen] = useState<boolean>(false)
+  const [settingsOpen, setSettingsOpen] = useState<boolean>(true)
 
   // Initialize Select Data
   useEffect(() => {
@@ -103,9 +105,7 @@ export const GameFormDialog = (props: DialogProps) => {
               label: `${doc.data().category_name} (${
                 doc.data().category_type
               })`,
-              value: `${doc.data().category_name} (${
-                doc.data().category_type
-              })`,
+              value: `${doc.data().category_name}.${doc.data().category_type}`,
             }))
           )
         },
@@ -133,10 +133,6 @@ export const GameFormDialog = (props: DialogProps) => {
     }
   }, [])
 
-  useEffect(() => {
-    if (sets) console.log(sets, loading)
-  }, [sets])
-
   // Get Edit Data & Collapse Menu Handler
   useEffect(() => {
     if (id) {
@@ -162,16 +158,7 @@ export const GameFormDialog = (props: DialogProps) => {
           setLoading(false)
         }
       }
-      setDetailsOpen(false)
-      setOfficialsOpen(false)
-      setPlayersOpen(false)
-      setSettingsOpen(true)
       fetchData()
-    } else {
-      setDetailsOpen(true)
-      setOfficialsOpen(true)
-      setPlayersOpen(true)
-      setSettingsOpen(false)
     }
   }, [id])
 
@@ -514,23 +501,19 @@ export const GameFormDialog = (props: DialogProps) => {
                     </Grid>
                     {/* No. of Sets */}
                     <Grid item xs={3}>
-                      <FormControl fullWidth>
-                        <InputLabel id="maxScoreId">Max Score</InputLabel>
-                        <Select
-                          labelId="maxScoreId"
-                          value={details.max_score}
-                          label="Max Score"
-                          onChange={(event: any) => {
-                            handleFieldChange(
-                              "details.max_score",
-                              event.target.value
-                            )
-                          }}
-                        >
-                          <MenuItem value={21}>21</MenuItem>
-                          <MenuItem value={31}>31</MenuItem>
-                        </Select>
-                      </FormControl>
+                      <TextField
+                        id="max_score"
+                        label="Max Score"
+                        type="number"
+                        value={details.max_score}
+                        onChange={(event: any) => {
+                          handleFieldChange(
+                            "details.max_score",
+                            event.target.value
+                          )
+                        }}
+                        fullWidth
+                      />
                     </Grid>
                     {/* Time Slot */}
                     <Grid item xs={6}>
@@ -604,6 +587,406 @@ export const GameFormDialog = (props: DialogProps) => {
                   </Grid>
                 </Collapse>
               </Grid>
+              {/* Players */}
+              <Grid item xs={12}>
+                <Typography
+                  variant="h5"
+                  fontWeight={700}
+                  onClick={() => {
+                    setPlayersOpen((prev: boolean) => !prev)
+                  }}
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 1,
+                    cursor: "pointer",
+                  }}
+                >
+                  {playersOpen ? (
+                    <ExpandLessIcon fontSize="inherit" />
+                  ) : (
+                    <ExpandMoreIcon fontSize="inherit" />
+                  )}
+                  Players
+                </Typography>
+              </Grid>
+              <Grid item xs={12}>
+                <Collapse in={playersOpen} timeout="auto" unmountOnExit>
+                  <Grid container spacing={1.5}>
+                    <Grid item xs={6}>
+                      <Stack gap={1}>
+                        <Typography variant="h6">Team A</Typography>
+                        <TextField
+                          id="teamANameId"
+                          label="Team A Name"
+                          value={players.team_a.team_name}
+                          onChange={(event: any) => {
+                            handleFieldChange(
+                              "players.team_a.team_name",
+                              event.target.value
+                            )
+                          }}
+                          fullWidth
+                        />
+                        <Box
+                          sx={{ display: "flex", alignItems: "center", gap: 2 }}
+                        >
+                          <Typography variant="h6">Player 1</Typography>
+                          <FormControlLabel
+                            control={
+                              <Checkbox
+                                value={players?.team_a.player_1.use_nickname}
+                                onChange={(event: any) => {
+                                  handleFieldChange(
+                                    "players.team_a.player_1.use_nickname",
+                                    event.target.checked
+                                  )
+                                }}
+                              />
+                            }
+                            label="One name only?"
+                          />
+                        </Box>
+                        {players?.team_a.player_1.use_nickname ? (
+                          <TextField
+                            id="playerA1NicknameId"
+                            label="Name"
+                            value={players?.team_a.player_1.nickname}
+                            onChange={(event: any) => {
+                              handleFieldChange(
+                                "players.team_a.player_1.nickname",
+                                event.target.value
+                              )
+                            }}
+                            error={!!errors["players.team_a.player_1.nickname"]}
+                            helperText={
+                              errors["players.team_a.player_1.nickname"]
+                            }
+                            fullWidth
+                          />
+                        ) : (
+                          <>
+                            <TextField
+                              id="playerA1FirstId"
+                              label="First Name"
+                              value={players?.team_a.player_1.first_name}
+                              onChange={(event: any) => {
+                                handleFieldChange(
+                                  "players.team_a.player_1.first_name",
+                                  event.target.value
+                                )
+                              }}
+                              error={
+                                !!errors["players.team_a.player_1.first_name"]
+                              }
+                              helperText={
+                                errors["players.team_a.player_1.first_name"]
+                              }
+                              fullWidth
+                            />
+                            <TextField
+                              id="playerA1LastId"
+                              label="Last Name"
+                              value={players?.team_a.player_1.last_name}
+                              onChange={(event: any) => {
+                                handleFieldChange(
+                                  "players.team_a.player_1.last_name",
+                                  event.target.value
+                                )
+                              }}
+                              error={
+                                !!errors["players.team_a.player_1.last_name"]
+                              }
+                              helperText={
+                                errors["players.team_a.player_1.last_name"]
+                              }
+                              fullWidth
+                            />
+                          </>
+                        )}
+                        {details?.category.split(".")[1] === "doubles" && (
+                          <>
+                            <Box
+                              sx={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: 2,
+                              }}
+                            >
+                              <Typography variant="h6">Player 2</Typography>
+                              <FormControlLabel
+                                control={
+                                  <Checkbox
+                                    value={
+                                      players?.team_a.player_2.use_nickname
+                                    }
+                                    onChange={(event: any) => {
+                                      handleFieldChange(
+                                        "players.team_a.player_2.use_nickname",
+                                        event.target.checked
+                                      )
+                                    }}
+                                  />
+                                }
+                                label="One name only?"
+                              />
+                            </Box>
+                            {players?.team_a.player_2.use_nickname ? (
+                              <TextField
+                                id="playerA2FirstId"
+                                label="Name"
+                                value={players?.team_a.player_2.nickname}
+                                onChange={(event: any) => {
+                                  handleFieldChange(
+                                    "players.team_a.player_2.nickname",
+                                    event.target.value
+                                  )
+                                }}
+                                error={
+                                  !!errors["players.team_a.player_2.nickname"]
+                                }
+                                helperText={
+                                  errors["players.team_a.player_2.nickname"]
+                                }
+                                fullWidth
+                              />
+                            ) : (
+                              <>
+                                <TextField
+                                  id="playerA2FirstId"
+                                  label="First Name"
+                                  value={players?.team_a.player_2.first_name}
+                                  onChange={(event: any) => {
+                                    handleFieldChange(
+                                      "players.team_a.player_2.first_name",
+                                      event.target.value
+                                    )
+                                  }}
+                                  error={
+                                    !!errors[
+                                      "players.team_a.player_2.first_name"
+                                    ]
+                                  }
+                                  helperText={
+                                    errors["players.team_a.player_2.first_name"]
+                                  }
+                                  fullWidth
+                                />
+                                <TextField
+                                  id="playerA2LastId"
+                                  label="Last Name"
+                                  value={players?.team_a.player_2.last_name}
+                                  onChange={(event: any) => {
+                                    handleFieldChange(
+                                      "players.team_a.player_2.last_name",
+                                      event.target.value
+                                    )
+                                  }}
+                                  error={
+                                    !!errors[
+                                      "players.team_a.player_2.last_name"
+                                    ]
+                                  }
+                                  helperText={
+                                    errors["players.team_a.player_2.last_name"]
+                                  }
+                                  fullWidth
+                                />
+                              </>
+                            )}
+                          </>
+                        )}
+                      </Stack>
+                    </Grid>
+                    <Grid item xs={6}>
+                      <Stack gap={1}>
+                        <Typography variant="h6">Team B</Typography>
+                        <TextField
+                          id="teamBNameId"
+                          label="Team B Name"
+                          value={players.team_b.team_name}
+                          onChange={(event: any) => {
+                            handleFieldChange(
+                              "players.team_b.team_name",
+                              event.target.value
+                            )
+                          }}
+                          fullWidth
+                        />
+                        <Box
+                          sx={{ display: "flex", alignItems: "center", gap: 2 }}
+                        >
+                          <Typography variant="h6">Player 1</Typography>
+                          <FormControlLabel
+                            control={
+                              <Checkbox
+                                value={players?.team_b.player_1.use_nickname}
+                                onChange={(event: any) => {
+                                  handleFieldChange(
+                                    "players.team_b.player_1.use_nickname",
+                                    event.target.checked
+                                  )
+                                }}
+                              />
+                            }
+                            label="One name only?"
+                          />
+                        </Box>
+                        {players?.team_b.player_1.use_nickname ? (
+                          <TextField
+                            id="playerB1NicknameId"
+                            label="Name"
+                            value={players?.team_b.player_1.nickname}
+                            onChange={(event: any) => {
+                              handleFieldChange(
+                                "players.team_b.player_1.nickname",
+                                event.target.value
+                              )
+                            }}
+                            error={!!errors["players.team_b.player_1.nickname"]}
+                            helperText={
+                              errors["players.team_b.player_1.nickname"]
+                            }
+                            fullWidth
+                          />
+                        ) : (
+                          <>
+                            <TextField
+                              id="playerB1FirstId"
+                              label="First Name"
+                              value={players?.team_b.player_1.first_name}
+                              onChange={(event: any) => {
+                                handleFieldChange(
+                                  "players.team_b.player_1.first_name",
+                                  event.target.value
+                                )
+                              }}
+                              error={
+                                !!errors["players.team_b.player_1.first_name"]
+                              }
+                              helperText={
+                                errors["players.team_b.player_1.first_name"]
+                              }
+                              fullWidth
+                            />
+                            <TextField
+                              id="playerB1LastId"
+                              label="Last Name"
+                              value={players?.team_b.player_1.last_name}
+                              onChange={(event: any) => {
+                                handleFieldChange(
+                                  "players.team_b.player_1.last_name",
+                                  event.target.value
+                                )
+                              }}
+                              error={
+                                !!errors["players.team_b.player_1.last_name"]
+                              }
+                              helperText={
+                                errors["players.team_b.player_1.last_name"]
+                              }
+                              fullWidth
+                            />
+                          </>
+                        )}
+                        {details?.category.split(".")[1] === "doubles" && (
+                          <>
+                            <Box
+                              sx={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: 2,
+                              }}
+                            >
+                              <Typography variant="h6">Player 2</Typography>
+                              <FormControlLabel
+                                control={
+                                  <Checkbox
+                                    value={
+                                      players?.team_b.player_2.use_nickname
+                                    }
+                                    onChange={(event: any) => {
+                                      handleFieldChange(
+                                        "players.team_b.player_2.use_nickname",
+                                        event.target.checked
+                                      )
+                                    }}
+                                  />
+                                }
+                                label="One name only?"
+                              />
+                            </Box>
+                            {players?.team_b.player_2.use_nickname ? (
+                              <TextField
+                                id="playerB2NicknameId"
+                                label="Name"
+                                value={players?.team_b.player_2.nickname}
+                                onChange={(event: any) => {
+                                  handleFieldChange(
+                                    "players.team_b.player_2.nickname",
+                                    event.target.value
+                                  )
+                                }}
+                                error={
+                                  !!errors["players.team_b.player_2.nickname"]
+                                }
+                                helperText={
+                                  errors["players.team_b.player_2.nickname"]
+                                }
+                                fullWidth
+                              />
+                            ) : (
+                              <>
+                                <TextField
+                                  id="playerB2FirstId"
+                                  label="First Name"
+                                  value={players?.team_b.player_2.first_name}
+                                  onChange={(event: any) => {
+                                    handleFieldChange(
+                                      "players.team_b.player_2.first_name",
+                                      event.target.value
+                                    )
+                                  }}
+                                  error={
+                                    !!errors[
+                                      "players.team_b.player_2.first_name"
+                                    ]
+                                  }
+                                  helperText={
+                                    errors["players.team_b.player_2.first_name"]
+                                  }
+                                  fullWidth
+                                />
+                                <TextField
+                                  id="playerB2LastId"
+                                  label="Last Name"
+                                  value={players?.team_b.player_2.last_name}
+                                  onChange={(event: any) => {
+                                    handleFieldChange(
+                                      "players.team_b.player_2.last_name",
+                                      event.target.value
+                                    )
+                                  }}
+                                  error={
+                                    !!errors[
+                                      "players.team_b.player_2.last_name"
+                                    ]
+                                  }
+                                  helperText={
+                                    errors["players.team_b.player_2.last_name"]
+                                  }
+                                  fullWidth
+                                />
+                              </>
+                            )}
+                          </>
+                        )}
+                      </Stack>
+                    </Grid>
+                  </Grid>
+                </Collapse>
+              </Grid>
+              {/* Officials */}
               <Grid item xs={12}>
                 <Typography
                   variant="h5"
@@ -705,185 +1088,6 @@ export const GameFormDialog = (props: DialogProps) => {
                           )}
                         </Select>
                       </FormControl>
-                    </Grid>
-                  </Grid>
-                </Collapse>
-              </Grid>
-              {/* Players */}
-              <Grid item xs={12}>
-                <Typography
-                  variant="h5"
-                  fontWeight={700}
-                  onClick={() => {
-                    setPlayersOpen((prev: boolean) => !prev)
-                  }}
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 1,
-                    cursor: "pointer",
-                  }}
-                >
-                  {playersOpen ? (
-                    <ExpandLessIcon fontSize="inherit" />
-                  ) : (
-                    <ExpandMoreIcon fontSize="inherit" />
-                  )}
-                  Players
-                </Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <Collapse in={playersOpen} timeout="auto" unmountOnExit>
-                  <Grid container spacing={1.5}>
-                    <Grid item xs={6}>
-                      <Stack gap={1}>
-                        <Typography variant="h6">Team A</Typography>
-                        <TextField
-                          id="teamANameId"
-                          label="Team A Name"
-                          value={players.team_a.team_name}
-                          onChange={(event: any) => {
-                            handleFieldChange(
-                              "players.team_a.team_name",
-                              event.target.value
-                            )
-                          }}
-                          fullWidth
-                        />
-                        <Typography variant="h6">Player 1</Typography>
-                        <TextField
-                          id="playerA1FirstId"
-                          label="First Name"
-                          value={players?.team_a.player_1.first_name}
-                          onChange={(event: any) => {
-                            handleFieldChange(
-                              "players.team_a.player_1.first_name",
-                              event.target.value
-                            )
-                          }}
-                          error={!!errors["players.team_a.player_1.first_name"]}
-                          helperText={
-                            errors["players.team_a.player_1.first_name"]
-                          }
-                          fullWidth
-                        />
-                        <TextField
-                          id="playerA1LastId"
-                          label="Last Name"
-                          value={players?.team_a.player_1.last_name}
-                          onChange={(event: any) => {
-                            handleFieldChange(
-                              "players.team_a.player_1.last_name",
-                              event.target.value
-                            )
-                          }}
-                          error={!!errors["players.team_a.player_1.last_name"]}
-                          helperText={
-                            errors["players.team_a.player_1.last_name"]
-                          }
-                          fullWidth
-                        />
-                        <Typography variant="h6">Player 2</Typography>
-                        <TextField
-                          id="playerA2FirstId"
-                          label="First Name"
-                          value={players?.team_a.player_2.first_name}
-                          onChange={(event: any) => {
-                            handleFieldChange(
-                              "players.team_a.player_2.first_name",
-                              event.target.value
-                            )
-                          }}
-                          fullWidth
-                        />
-                        <TextField
-                          id="playerA2LastId"
-                          label="Last Name"
-                          value={players?.team_a.player_2.last_name}
-                          onChange={(event: any) => {
-                            handleFieldChange(
-                              "players.team_a.player_2.last_name",
-                              event.target.value
-                            )
-                          }}
-                          fullWidth
-                        />
-                      </Stack>
-                    </Grid>
-                    <Grid item xs={6}>
-                      <Stack gap={1}>
-                        <Typography variant="h6">Team B</Typography>
-                        <TextField
-                          id="teamBNameId"
-                          label="Team B Name"
-                          value={players.team_b.team_name}
-                          onChange={(event: any) => {
-                            handleFieldChange(
-                              "players.team_b.team_name",
-                              event.target.value
-                            )
-                          }}
-                          fullWidth
-                        />
-                        <Typography variant="h6">Player 1</Typography>
-                        <TextField
-                          id="playerB1FirstId"
-                          label="First Name"
-                          value={players.team_b.player_1.first_name}
-                          onChange={(event: any) => {
-                            handleFieldChange(
-                              "players.team_b.player_1.first_name",
-                              event.target.value
-                            )
-                          }}
-                          error={!!errors["players.team_b.player_1.last_name"]}
-                          helperText={
-                            errors["players.team_b.player_1.last_name"]
-                          }
-                          fullWidth
-                        />
-                        <TextField
-                          id="playerB1LastId"
-                          label="Last Name"
-                          value={players.team_b.player_1.last_name}
-                          onChange={(event: any) => {
-                            handleFieldChange(
-                              "players.team_b.player_1.last_name",
-                              event.target.value
-                            )
-                          }}
-                          error={!!errors["players.team_b.player_1.last_name"]}
-                          helperText={
-                            errors["players.team_b.player_1.last_name"]
-                          }
-                          fullWidth
-                        />
-                        <Typography variant="h6">Player 2</Typography>
-                        <TextField
-                          id="playerB2FirstId"
-                          label="First Name"
-                          value={players.team_b.player_2.first_name}
-                          onChange={(event: any) => {
-                            handleFieldChange(
-                              "players.team_b.player_2.first_name",
-                              event.target.value
-                            )
-                          }}
-                          fullWidth
-                        />
-                        <TextField
-                          id="playerB2LastId"
-                          label="Last Name"
-                          value={players.team_b.player_2.last_name}
-                          onChange={(event: any) => {
-                            handleFieldChange(
-                              "players.team_b.player_2.last_name",
-                              event.target.value
-                            )
-                          }}
-                          fullWidth
-                        />
-                      </Stack>
                     </Grid>
                   </Grid>
                 </Collapse>

@@ -40,8 +40,14 @@
 .scoreboard {
     height: 90%;
     width: 100%;
-    display: flex;
     background-color: #141414;
+}
+
+.team {
+    height: 50%;
+    width: 100%;
+    border: solid 1px white;
+    display: flex;
 }
 
 .players {
@@ -49,50 +55,45 @@
     height: 100%;
 }
 
-.team {
+.player_container {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    width: 100%;
+    padding: 2%;
+    align-items: center;
+    justify-content: flex-start;
     height: 50%;
 }
 
 .player {
-    padding-left: 2%;
     font-family: "Sofia Sans Extra Condensed", sans-serif !important;
-    font-size: 110px !important;
+    font-size: 120px !important;
     font-weight: 800 !important;
     text-transform: uppercase;
-    display: flex;
-    align-items: center;
 }
 
-.sets {
+.single {
+    font-size: 160px !important;
+}
+
+.set_container {
     width: 5%;
     height: 100%;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
 }
 
-.set {
+.set_score {
     font-family: "Sofia Sans Extra Condensed", sans-serif !important;
     font-size: 100px !important;
     font-weight: 800 !important;
-}
-
-.scores {
-    width: 17%;
-    height: 100%;
+    text-align: center;
 }
 
 .score_container {
-    width: 100%;
-    height: 50%;
+    width: 17%;
+    height: 100%;
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
 }
 
 .score {
