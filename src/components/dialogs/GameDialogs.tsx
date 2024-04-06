@@ -126,6 +126,8 @@ export const GameFormDialog = (props: DialogProps) => {
       }
     )
 
+    if (sets) {
+    }
     return () => {
       courtSub()
       categorySub()
