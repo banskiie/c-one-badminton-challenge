@@ -31,12 +31,7 @@ export default () => {
               setCurrentSet(
                 doc.data().sets[`set_${doc.data().details.playing_set}`]
               )
-              if (
-                doc.data().players.team_a.player_2.first_name &&
-                doc.data().players.team_a.player_2.last_name &&
-                doc.data().players.team_b.player_2.first_name &&
-                doc.data().players.team_b.player_2.last_name
-              ) {
+              if (doc.data().details.category.split(".")[1] === "doubles") {
                 setHasPlayer2(true)
               } else {
                 setHasPlayer2(false)
@@ -77,7 +72,7 @@ export default () => {
                 " (Set " + data?.details.playing_set + ")"}
             </Box>
             <Box className={styles.header_text} textAlign="center">
-              {data?.details.category}
+              {data?.details.category.split(".")[0]}
             </Box>
             <Typography className={styles.header_text} textAlign="right">
               <Button onClick={() => signOut()}>
