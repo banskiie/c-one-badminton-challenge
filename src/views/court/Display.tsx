@@ -200,7 +200,7 @@ export default () => {
                     >
                       {data?.players.team_b.player_2.use_nickname
                         ? data?.players.team_b.player_2.nickname
-                        : `${data?.players.team_b.player_2.first_name[0]}. ${data?.players.team_a.player_2.last_name}`}
+                        : `${data?.players.team_b.player_2.first_name[0]}. ${data?.players.team_b.player_2.last_name}`}
                     </Typography>
                   </Box>
                 )}
