@@ -6,7 +6,7 @@ import {
   ListItemText,
 } from "@mui/material"
 import {
-  DashboardRounded as DashboardIcon,
+  // DashboardRounded as DashboardIcon,
   ScoreboardRounded as GamesIcon,
   AccountTreeRounded as Categoriesicon,
   SportsScoreRounded as OfficialsIcon,
