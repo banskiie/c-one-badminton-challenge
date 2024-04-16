@@ -69,7 +69,7 @@ export const GameFormDialog = (props: DialogProps) => {
   const { details, sets, time, players, officials, statuses } = payload
   // Form
   const [loading, setLoading] = useState<boolean>(false)
-  const [errors, setErrors] = useState<any>({})
+  // const [errors, setErrors] = useState<any>({})
   // Collapse
   const [detailsOpen, setDetailsOpen] = useState<boolean>(true)
   const [officialsOpen, setOfficialsOpen] = useState<boolean>(true)
@@ -269,10 +269,10 @@ export const GameFormDialog = (props: DialogProps) => {
   const submit = async () => {
     setLoading(true)
     try {
-      const hasErrors = Object.values(errors).some((error) => !!error)
-      if (hasErrors) {
-        return
-      }
+      // const hasErrors = Object.values(errors).some((error) => !!error)
+      // if (hasErrors) {
+      //   return
+      // }
       id
         ? await updateDoc(doc(FIRESTORE_DB, `games/${id}`), {
             ...payload,
@@ -410,8 +410,8 @@ export const GameFormDialog = (props: DialogProps) => {
                                   +event.target.value
                                 )
                               }}
-                              error={!!errors["details.shuttles_used"]}
-                              helperText={errors["details.shuttles_used"]}
+                              // error={!!errors["details.shuttles_used"]}
+                              // helperText={errors["details.shuttles_used"]}
                               fullWidth
                             />
                           </Grid>
@@ -459,8 +459,8 @@ export const GameFormDialog = (props: DialogProps) => {
                             event.target.value
                           )
                         }}
-                        error={!!errors["details.game_no"]}
-                        helperText={errors["details.game_no"]}
+                        // error={!!errors["details.game_no"]}
+                        // helperText={errors["details.game_no"]}
                         fullWidth
                       />
                     </Grid>
@@ -475,8 +475,8 @@ export const GameFormDialog = (props: DialogProps) => {
                             event.target.value
                           )
                         }}
-                        error={!!errors["details.group_no"]}
-                        helperText={errors["details.group_no"]}
+                        // error={!!errors["details.group_no"]}
+                        // helperText={errors["details.group_no"]}
                         fullWidth
                       />
                     </Grid>
@@ -659,10 +659,10 @@ export const GameFormDialog = (props: DialogProps) => {
                                 event.target.value
                               )
                             }}
-                            error={!!errors["players.team_a.player_1.nickname"]}
-                            helperText={
-                              errors["players.team_a.player_1.nickname"]
-                            }
+                            // error={!!errors["players.team_a.player_1.nickname"]}
+                            // helperText={
+                            //   errors["players.team_a.player_1.nickname"]
+                            // }
                             fullWidth
                           />
                         ) : (
@@ -677,12 +677,12 @@ export const GameFormDialog = (props: DialogProps) => {
                                   event.target.value
                                 )
                               }}
-                              error={
-                                !!errors["players.team_a.player_1.first_name"]
-                              }
-                              helperText={
-                                errors["players.team_a.player_1.first_name"]
-                              }
+                              // error={
+                              //   !!errors["players.team_a.player_1.first_name"]
+                              // }
+                              // helperText={
+                              //   errors["players.team_a.player_1.first_name"]
+                              // }
                               fullWidth
                             />
                             <TextField
@@ -695,12 +695,12 @@ export const GameFormDialog = (props: DialogProps) => {
                                   event.target.value
                                 )
                               }}
-                              error={
-                                !!errors["players.team_a.player_1.last_name"]
-                              }
-                              helperText={
-                                errors["players.team_a.player_1.last_name"]
-                              }
+                              // error={
+                              //   !!errors["players.team_a.player_1.last_name"]
+                              // }
+                              // helperText={
+                              //   errors["players.team_a.player_1.last_name"]
+                              // }
                               fullWidth
                             />
                           </>
@@ -743,12 +743,12 @@ export const GameFormDialog = (props: DialogProps) => {
                                     event.target.value
                                   )
                                 }}
-                                error={
-                                  !!errors["players.team_a.player_2.nickname"]
-                                }
-                                helperText={
-                                  errors["players.team_a.player_2.nickname"]
-                                }
+                                // error={
+                                //   !!errors["players.team_a.player_2.nickname"]
+                                // }
+                                // helperText={
+                                //   errors["players.team_a.player_2.nickname"]
+                                // }
                                 fullWidth
                               />
                             ) : (
@@ -763,14 +763,14 @@ export const GameFormDialog = (props: DialogProps) => {
                                       event.target.value
                                     )
                                   }}
-                                  error={
-                                    !!errors[
-                                      "players.team_a.player_2.first_name"
-                                    ]
-                                  }
-                                  helperText={
-                                    errors["players.team_a.player_2.first_name"]
-                                  }
+                                  // error={
+                                  //   !!errors[
+                                  //     "players.team_a.player_2.first_name"
+                                  //   ]
+                                  // }
+                                  // helperText={
+                                  //   errors["players.team_a.player_2.first_name"]
+                                  // }
                                   fullWidth
                                 />
                                 <TextField
@@ -783,14 +783,14 @@ export const GameFormDialog = (props: DialogProps) => {
                                       event.target.value
                                     )
                                   }}
-                                  error={
-                                    !!errors[
-                                      "players.team_a.player_2.last_name"
-                                    ]
-                                  }
-                                  helperText={
-                                    errors["players.team_a.player_2.last_name"]
-                                  }
+                                  // error={
+                                  //   !!errors[
+                                  //     "players.team_a.player_2.last_name"
+                                  //   ]
+                                  // }
+                                  // helperText={
+                                  //   errors["players.team_a.player_2.last_name"]
+                                  // }
                                   fullWidth
                                 />
                               </>
@@ -844,10 +844,10 @@ export const GameFormDialog = (props: DialogProps) => {
                                 event.target.value
                               )
                             }}
-                            error={!!errors["players.team_b.player_1.nickname"]}
-                            helperText={
-                              errors["players.team_b.player_1.nickname"]
-                            }
+                            // error={!!errors["players.team_b.player_1.nickname"]}
+                            // helperText={
+                            //   errors["players.team_b.player_1.nickname"]
+                            // }
                             fullWidth
                           />
                         ) : (
@@ -862,12 +862,12 @@ export const GameFormDialog = (props: DialogProps) => {
                                   event.target.value
                                 )
                               }}
-                              error={
-                                !!errors["players.team_b.player_1.first_name"]
-                              }
-                              helperText={
-                                errors["players.team_b.player_1.first_name"]
-                              }
+                              // error={
+                              //   !!errors["players.team_b.player_1.first_name"]
+                              // }
+                              // helperText={
+                              //   errors["players.team_b.player_1.first_name"]
+                              // }
                               fullWidth
                             />
                             <TextField
@@ -880,12 +880,12 @@ export const GameFormDialog = (props: DialogProps) => {
                                   event.target.value
                                 )
                               }}
-                              error={
-                                !!errors["players.team_b.player_1.last_name"]
-                              }
-                              helperText={
-                                errors["players.team_b.player_1.last_name"]
-                              }
+                              // error={
+                              //   !!errors["players.team_b.player_1.last_name"]
+                              // }
+                              // helperText={
+                              //   errors["players.team_b.player_1.last_name"]
+                              // }
                               fullWidth
                             />
                           </>
@@ -928,12 +928,12 @@ export const GameFormDialog = (props: DialogProps) => {
                                     event.target.value
                                   )
                                 }}
-                                error={
-                                  !!errors["players.team_b.player_2.nickname"]
-                                }
-                                helperText={
-                                  errors["players.team_b.player_2.nickname"]
-                                }
+                                // error={
+                                //   !!errors["players.team_b.player_2.nickname"]
+                                // }
+                                // helperText={
+                                //   errors["players.team_b.player_2.nickname"]
+                                // }
                                 fullWidth
                               />
                             ) : (
@@ -948,14 +948,14 @@ export const GameFormDialog = (props: DialogProps) => {
                                       event.target.value
                                     )
                                   }}
-                                  error={
-                                    !!errors[
-                                      "players.team_b.player_2.first_name"
-                                    ]
-                                  }
-                                  helperText={
-                                    errors["players.team_b.player_2.first_name"]
-                                  }
+                                  // error={
+                                  //   !!errors[
+                                  //     "players.team_b.player_2.first_name"
+                                  //   ]
+                                  // }
+                                  // helperText={
+                                  //   errors["players.team_b.player_2.first_name"]
+                                  // }
                                   fullWidth
                                 />
                                 <TextField
@@ -968,14 +968,14 @@ export const GameFormDialog = (props: DialogProps) => {
                                       event.target.value
                                     )
                                   }}
-                                  error={
-                                    !!errors[
-                                      "players.team_b.player_2.last_name"
-                                    ]
-                                  }
-                                  helperText={
-                                    errors["players.team_b.player_2.last_name"]
-                                  }
+                                  // error={
+                                  //   !!errors[
+                                  //     "players.team_b.player_2.last_name"
+                                  //   ]
+                                  // }
+                                  // helperText={
+                                  //   errors["players.team_b.player_2.last_name"]
+                                  // }
                                   fullWidth
                                 />
                               </>
