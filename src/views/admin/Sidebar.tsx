@@ -17,11 +17,11 @@ import { NavLink } from "react-router-dom"
 import styles from "../../styles/sidebar.module.css"
 
 const MenuItems = [
-  {
-    label: "Dashboard",
-    icon: <DashboardIcon />,
-    to: "/admin/dashboard",
-  },
+  // {
+  //   label: "Dashboard",
+  //   icon: <DashboardIcon />,
+  //   to: "/admin/dashboard",
+  // },
   {
     label: "Games",
     icon: <GamesIcon />,

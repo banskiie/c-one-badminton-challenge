@@ -144,6 +144,7 @@ export const GameFormDialog = (props: DialogProps) => {
           const ref = doc(FIRESTORE_DB, `games/${id}`)
           const gameDoc = await getDoc(ref)
           const data = gameDoc.data()
+          console.log(data)
           if (data) {
             for (const key in data) {
               if (key in initialGameState) {
@@ -167,11 +168,11 @@ export const GameFormDialog = (props: DialogProps) => {
   // Handle Field Changes
   const handleFieldChange = (field: string, value: any) => {
     // Check Field Errors
-    const fieldErrors = validateField(field, value)
-    setErrors((prevErrors: any) => ({
-      ...prevErrors,
-      [field]: fieldErrors,
-    }))
+    // const fieldErrors = validateField(field, value)
+    // setErrors((prevErrors: any) => ({
+    //   ...prevErrors,
+    //   [field]: fieldErrors,
+    // }))
     // Changing of Form Data
     const fields = field.split(".")
     if (fields.length === 2) {
@@ -224,22 +225,22 @@ export const GameFormDialog = (props: DialogProps) => {
     }
   }
 
-  // Validate Fields
-  const validateField = (field: string, value: any) => {
-    const nullableFields = [
-      "players.team_a.team_name",
-      "players.team_a.player_2.first_name",
-      "players.team_a.player_2.last_name",
-      "players.team_b.team_name",
-      "players.team_b.player_2.first_name",
-      "players.team_b.player_2.last_name",
-    ]
-    if (nullableFields.includes(field)) {
-      return ""
-    } else {
-      return value === "" ? "This field must not be empty." : ""
-    }
-  }
+  // // Validate Fields
+  // const validateField = (field: string, value: any) => {
+  //   const nullableFields = [
+  //     "players.team_a.team_name",
+  //     "players.team_a.player_2.first_name",
+  //     "players.team_a.player_2.last_name",
+  //     "players.team_b.team_name",
+  //     "players.team_b.player_2.first_name",
+  //     "players.team_b.player_2.last_name",
+  //   ]
+  //   if (nullableFields.includes(field)) {
+  //     return ""
+  //   } else {
+  //     return value === "" ? "This field must not be empty." : ""
+  //   }
+  // }
 
   // Handle No. Of Sets Per Match
   useEffect(() => {
@@ -389,8 +390,6 @@ export const GameFormDialog = (props: DialogProps) => {
                               >
                                 <MenuItem value="upcoming">Upcoming</MenuItem>
                                 <MenuItem value="current">Playing</MenuItem>
-                                <MenuItem value="forfeit">Forfeit</MenuItem>
-                                <MenuItem value="no match">No Match</MenuItem>
                                 <MenuItem value="finished">Finished</MenuItem>
                               </Select>
                             </FormControl>
@@ -637,7 +636,7 @@ export const GameFormDialog = (props: DialogProps) => {
                           <FormControlLabel
                             control={
                               <Checkbox
-                                value={players?.team_a.player_1.use_nickname}
+                                checked={players?.team_a.player_1.use_nickname}
                                 onChange={(event: any) => {
                                   handleFieldChange(
                                     "players.team_a.player_1.use_nickname",
@@ -719,7 +718,7 @@ export const GameFormDialog = (props: DialogProps) => {
                               <FormControlLabel
                                 control={
                                   <Checkbox
-                                    value={
+                                    checked={
                                       players?.team_a.player_2.use_nickname
                                     }
                                     onChange={(event: any) => {
@@ -822,7 +821,7 @@ export const GameFormDialog = (props: DialogProps) => {
                           <FormControlLabel
                             control={
                               <Checkbox
-                                value={players?.team_b.player_1.use_nickname}
+                                checked={players?.team_b.player_1.use_nickname}
                                 onChange={(event: any) => {
                                   handleFieldChange(
                                     "players.team_b.player_1.use_nickname",
@@ -904,7 +903,7 @@ export const GameFormDialog = (props: DialogProps) => {
                               <FormControlLabel
                                 control={
                                   <Checkbox
-                                    value={
+                                    checked={
                                       players?.team_b.player_2.use_nickname
                                     }
                                     onChange={(event: any) => {
@@ -1125,6 +1124,7 @@ export const GameFormDialog = (props: DialogProps) => {
 export const ViewGameDialog = (props: DialogProps) => {
   const { open, onClose, id } = props
   const [data, setData] = useState<any | null>(null)
+  const [hasPlayer2, setHasPlayer2] = useState<boolean>(false)
 
   useEffect(() => {
     if (id) {
@@ -1133,7 +1133,15 @@ export const ViewGameDialog = (props: DialogProps) => {
           const ref = doc(FIRESTORE_DB, `games/${id}`)
           onSnapshot(ref, {
             next: (snapshot) => {
-              setData(snapshot.data())
+              if (snapshot.exists()) {
+                const snap = snapshot.data()
+                if (snap.details.category.split(".")[1] === "doubles") {
+                  setHasPlayer2(true)
+                } else {
+                  setHasPlayer2(false)
+                }
+                setData(snap)
+              }
             },
           })
         } catch (error: any) {
@@ -1229,7 +1237,11 @@ export const ViewGameDialog = (props: DialogProps) => {
                     fontWeight={700}
                     textTransform="capitalize"
                   >
-                    {data?.details.category}
+                    {data?.details.category
+                      ? `${data?.details.category.split(".")[0]} (${
+                          data?.details.category.split(".")[1]
+                        })`
+                      : "-"}
                   </Typography>
                 </Box>
                 <Box sx={{ display: "flex" }}>
@@ -1237,7 +1249,7 @@ export const ViewGameDialog = (props: DialogProps) => {
                     No.
                   </Typography>
                   <Typography variant="body2" width={"65%"} fontWeight={700}>
-                    {data?.details.game_no}
+                    {data?.details.game_no ? data?.details.game_no : "-"}
                   </Typography>
                 </Box>
                 <Box sx={{ display: "flex" }}>
@@ -1247,7 +1259,7 @@ export const ViewGameDialog = (props: DialogProps) => {
                   <Typography variant="body2" width={"65%"} fontWeight={700}>
                     {data?.time?.slot
                       ? moment(data?.time.slot.toDate()).format("ll")
-                      : "TBA"}
+                      : "-"}
                   </Typography>
                 </Box>
                 <Box sx={{ display: "flex" }}>
@@ -1257,7 +1269,7 @@ export const ViewGameDialog = (props: DialogProps) => {
                   <Typography variant="body2" width={"65%"} fontWeight={700}>
                     {data?.time.slot
                       ? moment(data?.time.slot.toDate()).format("hh:mmA")
-                      : "TBA"}
+                      : "-"}
                   </Typography>
                 </Box>
               </Stack>
@@ -1272,8 +1284,10 @@ export const ViewGameDialog = (props: DialogProps) => {
                   variant="body2"
                   fontWeight={600}
                 >
-                  {data?.players.team_a.player_1.first_name}{" "}
-                  {data?.players.team_a.player_1.last_name}
+                  {data?.players.team_a.player_1.use_nickname
+                    ? data?.players.team_a.player_1.nickname
+                    : `${data?.players.team_a.player_1.first_name}
+                  ${data?.players.team_a.player_1.last_name}`}
                 </Typography>
                 <Typography
                   className={styles.a_player}
@@ -1319,16 +1333,20 @@ export const ViewGameDialog = (props: DialogProps) => {
                   variant="body2"
                   fontWeight={600}
                 >
-                  {data?.players.team_b.player_1.first_name}{" "}
-                  {data?.players.team_b.player_1.last_name}
+                  {data?.players.team_b.player_1.use_nickname
+                    ? data?.players.team_b.player_1.nickname
+                    : `${data?.players.team_b.player_1.first_name}
+                  ${data?.players.team_b.player_1.last_name}`}
                 </Typography>
                 <Typography
                   className={styles.b_player}
                   variant="body2"
                   fontWeight={600}
                 >
-                  {data?.players.team_b.player_2.first_name}{" "}
-                  {data?.players.team_b.player_2.last_name}
+                  {data?.players.team_b.player_2.use_nickname
+                    ? data?.players.team_b.player_2.nickname
+                    : `${data?.players.team_b.player_2.first_name}
+                  ${data?.players.team_b.player_2.last_name}`}
                 </Typography>
                 <Typography
                   color="GrayText"
@@ -1351,7 +1369,7 @@ export const ViewGameDialog = (props: DialogProps) => {
                     variant="body2"
                     textTransform="capitalize"
                   >
-                    {data?.details.court}
+                    {data?.details.court !== "" ? data?.details.court : "-"}
                   </Typography>
                 </Box>
                 <Box sx={{ display: "flex" }}>
@@ -1367,7 +1385,9 @@ export const ViewGameDialog = (props: DialogProps) => {
                     Referee
                   </Typography>
                   <Typography variant="body2" width={"65%"} fontWeight={700}>
-                    {data?.officials.referee}
+                    {data?.officials.referee !== ""
+                      ? data?.officials.referee
+                      : "-"}
                   </Typography>
                 </Box>
                 <Box sx={{ display: "flex" }}>
@@ -1375,7 +1395,9 @@ export const ViewGameDialog = (props: DialogProps) => {
                     Service Judge
                   </Typography>
                   <Typography variant="body2" width={"65%"} fontWeight={700}>
-                    {data?.officials.service_judge}
+                    {data?.officials.service_judge !== ""
+                      ? data?.officials.service_judge
+                      : "-"}
                   </Typography>
                 </Box>
               </Stack>
@@ -1392,7 +1414,9 @@ export const ViewGameDialog = (props: DialogProps) => {
                     variant="body2"
                     textTransform="capitalize"
                   >
-                    {data?.officials.umpire}
+                    {data?.officials.umpire !== ""
+                      ? data?.officials.umpire
+                      : "-"}
                   </Typography>
                 </Box>
                 <Box sx={{ display: "flex" }}>
@@ -1421,10 +1445,50 @@ export const ViewGameDialog = (props: DialogProps) => {
                   </Typography>
                   <Typography variant="body2" width={"65%"} fontWeight={700}>
                     {!!(data?.time.start && data?.time.end)
-                      ? moment(data?.time.end.toDate()).diff(
-                          data?.time.start.toDate(),
-                          "minutes"
-                        ) + " mins"
+                      ? (moment
+                          .duration(
+                            moment(data?.time.end.toDate()).diff(
+                              data?.time.start.toDate()
+                            )
+                          )
+                          .hours() > 0
+                          ? moment
+                              .duration(
+                                moment(data?.time.end.toDate()).diff(
+                                  data?.time.start.toDate()
+                                )
+                              )
+                              .hours() + "hrs "
+                          : "") +
+                        (moment
+                          .duration(
+                            moment(data?.time.end.toDate()).diff(
+                              data?.time.start.toDate()
+                            )
+                          )
+                          .minutes() > 0
+                          ? moment
+                              .duration(
+                                moment(data?.time.end.toDate()).diff(
+                                  data?.time.start.toDate()
+                                )
+                              )
+                              .minutes() + "mins "
+                          : "") +
+                        (moment
+                          .duration(
+                            moment(data?.time.end.toDate()).diff(
+                              data?.time.start.toDate()
+                            )
+                          )
+                          .seconds() > 0 &&
+                          moment
+                            .duration(
+                              moment(data?.time.end.toDate()).diff(
+                                data?.time.start.toDate()
+                              )
+                            )
+                            .seconds() + "sec")
                       : "-"}
                   </Typography>
                 </Box>
@@ -1449,42 +1513,96 @@ export const ViewGameDialog = (props: DialogProps) => {
                           <Typography
                             variant="body2"
                             className={styles.a_player}
+                            sx={{
+                              color:
+                                data?.sets[`set_${index + 1}`].winner === "a"
+                                  ? "green"
+                                  : "inherit",
+                              fontWeight:
+                                data?.sets[`set_${index + 1}`].winner === "a"
+                                  ? 600
+                                  : 500,
+                            }}
                           >
-                            {!!(
-                              data?.players.team_a.player_2.first_name &&
-                              data?.players.team_a.player_2.last_name
-                            )
-                              ? `${data?.players.team_a.player_1.first_name}
-                                ${data?.players.team_a.player_1.last_name}`
-                              : `${data?.players.team_a.player_2.first_name}
-                                ${data?.players.team_a.player_2.last_name}`}
+                            {hasPlayer2 &&
+                              `${
+                                data?.players.team_a.player_1.use_nickname
+                                  ? data?.players.team_a.player_1.nickname
+                                  : `${data?.players.team_a.player_1.first_name} ${data?.players.team_a.player_2.last_name}`
+                              }`}
                           </Typography>
                           <Typography
                             variant="body2"
                             className={styles.a_player}
+                            sx={{
+                              color:
+                                data?.sets[`set_${index + 1}`].winner === "a"
+                                  ? "green"
+                                  : "inherit",
+                              fontWeight:
+                                data?.sets[`set_${index + 1}`].winner === "a"
+                                  ? 600
+                                  : 500,
+                            }}
                           >
-                            {!!(
-                              data?.players.team_a.player_2.first_name &&
-                              data?.players.team_a.player_2.last_name
-                            )
-                              ? `${data?.players.team_a.player_2.first_name}
-                                ${data?.players.team_a.player_2.last_name}`
-                              : `${data?.players.team_a.player_1.first_name}
-                                ${data?.players.team_a.player_1.last_name}`}
+                            {hasPlayer2
+                              ? `${
+                                  data?.players.team_a.player_2.use_nickname
+                                    ? data?.players.team_a.player_2.nickname
+                                    : `${data?.players.team_a.player_2.first_name} ${data?.players.team_a.player_2.last_name}`
+                                }`
+                              : `${
+                                  data?.players.team_a.player_1.use_nickname
+                                    ? data?.players.team_a.player_1.nickname
+                                    : `${data?.players.team_a.player_1.first_name} ${data?.players.team_a.player_1.last_name}`
+                                }`}
                           </Typography>
                           <Typography
                             variant="body2"
-                            className={styles.b_player}
+                            className={styles.a_player}
+                            sx={{
+                              color:
+                                data?.sets[`set_${index + 1}`].winner === "b"
+                                  ? "green"
+                                  : "inherit",
+                              fontWeight:
+                                data?.sets[`set_${index + 1}`].winner === "b"
+                                  ? 600
+                                  : 500,
+                            }}
                           >
-                            {data?.players.team_b.player_1.first_name}{" "}
-                            {data?.players.team_b.player_1.last_name}
+                            {hasPlayer2
+                              ? `${
+                                  data?.players.team_b.player_2.use_nickname
+                                    ? data?.players.team_b.player_2.nickname
+                                    : `${data?.players.team_b.player_2.first_name} ${data?.players.team_b.player_2.last_name}`
+                                }`
+                              : `${
+                                  data?.players.team_b.player_1.use_nickname
+                                    ? data?.players.team_b.player_1.nickname
+                                    : `${data?.players.team_b.player_1.first_name} ${data?.players.team_b.player_1.last_name}`
+                                }`}
                           </Typography>
                           <Typography
                             variant="body2"
-                            className={styles.b_player}
+                            className={styles.a_player}
+                            sx={{
+                              color:
+                                data?.sets[`set_${index + 1}`].winner === "b"
+                                  ? "green"
+                                  : "inherit",
+                              fontWeight:
+                                data?.sets[`set_${index + 1}`].winner === "b"
+                                  ? 600
+                                  : 500,
+                            }}
                           >
-                            {data?.players.team_b.player_2.first_name}{" "}
-                            {data?.players.team_b.player_2.last_name}
+                            {hasPlayer2 &&
+                              `${
+                                data?.players.team_b.player_1.use_nickname
+                                  ? data?.players.team_b.player_1.nickname
+                                  : `${data?.players.team_b.player_1.first_name} ${data?.players.team_b.player_2.last_name}`
+                              }`}
                           </Typography>
                         </Stack>
                         {/* Score */}

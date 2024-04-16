@@ -31,6 +31,7 @@ type Set = {
   last_team_scored: string
   winner: string
   scoresheet: Round[]
+  switch: boolean
 }
 
 type Round = {
@@ -109,6 +110,7 @@ export const initialGameState: Game = {
       last_team_scored: "",
       winner: "",
       scoresheet: [],
+      switch: false,
     },
   },
   time: {

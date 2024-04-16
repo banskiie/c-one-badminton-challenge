@@ -127,111 +127,15 @@ export default () => {
         const hasPlayer2 = params.value.category.split(".")[1] === "doubles"
         return (
           <>
-            {!!team_a.player_1.first_name ? (
-              <Box
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  width: "100%",
-                  height: 200,
-                }}
-              >
-                <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    width: "100%",
-                  }}
-                >
-                  <Box width="45%">
-                    <Typography
-                      fontWeight={winner == "a" ? 600 : 500}
-                      color={winner == "a" ? "green" : "initial"}
-                      textAlign="right"
-                      variant="inherit"
-                    >
-                      {team_a.player_1.use_nickname
-                        ? team_a.player_1.nickname
-                        : `${team_a.player_1.first_name} ${team_a.player_1.last_name}`}
-                    </Typography>
-                    {hasPlayer2 && (
-                      <Typography
-                        fontWeight={winner == "a" ? 600 : 500}
-                        color={winner == "a" ? "green" : "initial"}
-                        textAlign="right"
-                        variant="inherit"
-                      >
-                        {team_a.player_2.use_nickname
-                          ? team_a.player_2.nickname
-                          : `${team_a.player_2.first_name} ${team_a.player_2.last_name}`}
-                      </Typography>
-                    )}
-                  </Box>
-                  <Box width="10%">
-                    <Typography variant="inherit" textAlign="center">
-                      vs.
-                    </Typography>
-                  </Box>
-                  <Box width="45%">
-                    <Typography
-                      fontWeight={winner == "b" ? 600 : 500}
-                      color={winner == "b" ? "green" : "initial"}
-                      variant="inherit"
-                      textAlign="left"
-                    >
-                      {team_b.player_1.use_nickname
-                        ? team_b.player_1.nickname
-                        : `${team_b.player_1.first_name} ${team_b.player_1.last_name}`}
-                    </Typography>
-                    {hasPlayer2 && (
-                      <Typography
-                        fontWeight={winner == "b" ? 600 : 500}
-                        color={winner == "b" ? "green" : "initial"}
-                        variant="inherit"
-                        textAlign="left"
-                      >
-                        {team_b.player_2.use_nickname
-                          ? team_b.player_2.nickname
-                          : `${team_b.player_2.first_name} ${team_b.player_2.last_name}`}
-                      </Typography>
-                    )}
-                  </Box>
-                </Box>
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    width: "100%",
-                  }}
-                >
-                  {team_a.team_name && (
-                    <Typography
-                      width="45%"
-                      fontWeight={winner == "a" ? 600 : 500}
-                      color={winner == "a" ? "green" : "gray"}
-                      variant="caption"
-                      textAlign="right"
-                      whiteSpace="pre-wrap"
-                    >
-                      {team_a.team_name}
-                    </Typography>
-                  )}
-                  {team_b.team_name && (
-                    <Typography
-                      width="45%"
-                      fontWeight={winner == "b" ? 600 : 500}
-                      color={winner == "b" ? "green" : "gray"}
-                      variant="caption"
-                      whiteSpace="pre-wrap"
-                    >
-                      {team_b.team_name}
-                    </Typography>
-                  )}
-                </Box>
-              </Box>
-            ) : (
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                width: "100%",
+                height: 200,
+              }}
+            >
               <Box
                 sx={{
                   display: "flex",
@@ -241,9 +145,43 @@ export default () => {
                 }}
               >
                 <Box width="45%">
-                  <Typography textAlign="right" variant="inherit">
-                    TBA
-                  </Typography>
+                  {!!(
+                    team_a.player_1.first_name !== "" ||
+                    team_a.player_1.nickname !== ""
+                  ) ? (
+                    <>
+                      <Typography
+                        fontWeight={winner == "a" ? 600 : 500}
+                        color={winner == "a" ? "green" : "initial"}
+                        textAlign="right"
+                        variant="inherit"
+                      >
+                        {team_a.player_1.use_nickname
+                          ? team_a.player_1.nickname
+                          : `${team_a.player_1.first_name} ${team_a.player_1.last_name}`}
+                      </Typography>
+                      {hasPlayer2 && (
+                        <Typography
+                          fontWeight={winner == "a" ? 600 : 500}
+                          color={winner == "a" ? "green" : "initial"}
+                          textAlign="right"
+                          variant="inherit"
+                        >
+                          {team_a.player_2.use_nickname
+                            ? team_a.player_2.nickname
+                            : `${team_a.player_2.first_name} ${team_a.player_2.last_name}`}
+                        </Typography>
+                      )}
+                    </>
+                  ) : (
+                    <Typography
+                      fontWeight={500}
+                      textAlign="right"
+                      variant="inherit"
+                    >
+                      TBA
+                    </Typography>
+                  )}
                 </Box>
                 <Box width="10%">
                   <Typography variant="inherit" textAlign="center">
@@ -251,12 +189,77 @@ export default () => {
                   </Typography>
                 </Box>
                 <Box width="45%">
-                  <Typography variant="inherit" textAlign="left">
-                    TBA
-                  </Typography>
+                  {!!(
+                    team_b.player_1.first_name !== "" ||
+                    team_b.player_1.nickname !== ""
+                  ) ? (
+                    <>
+                      <Typography
+                        fontWeight={winner == "b" ? 600 : 500}
+                        color={winner == "b" ? "green" : "initial"}
+                        textAlign="left"
+                        variant="inherit"
+                      >
+                        {team_b.player_1.use_nickname
+                          ? team_b.player_1.nickname
+                          : `${team_b.player_1.first_name} ${team_b.player_1.last_name}`}
+                      </Typography>
+                      {hasPlayer2 && (
+                        <Typography
+                          fontWeight={winner == "b" ? 600 : 500}
+                          color={winner == "b" ? "green" : "initial"}
+                          textAlign="left"
+                          variant="inherit"
+                        >
+                          {team_b.player_2.use_nickname
+                            ? team_b.player_2.nickname
+                            : `${team_b.player_2.first_name} ${team_b.player_2.last_name}`}
+                        </Typography>
+                      )}
+                    </>
+                  ) : (
+                    <Typography
+                      fontWeight={500}
+                      textAlign="left"
+                      variant="inherit"
+                    >
+                      TBA
+                    </Typography>
+                  )}
                 </Box>
               </Box>
-            )}
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  width: "100%",
+                }}
+              >
+                {team_a.team_name && (
+                  <Typography
+                    width="45%"
+                    fontWeight={winner == "a" ? 600 : 500}
+                    color={winner == "a" ? "green" : "gray"}
+                    variant="caption"
+                    textAlign="right"
+                    whiteSpace="pre-wrap"
+                  >
+                    {team_a.team_name}
+                  </Typography>
+                )}
+                {team_b.team_name && (
+                  <Typography
+                    width="45%"
+                    fontWeight={winner == "b" ? 600 : 500}
+                    color={winner == "b" ? "green" : "gray"}
+                    variant="caption"
+                    whiteSpace="pre-wrap"
+                  >
+                    {team_b.team_name}
+                  </Typography>
+                )}
+              </Box>
+            </Box>
           </>
         )
       },

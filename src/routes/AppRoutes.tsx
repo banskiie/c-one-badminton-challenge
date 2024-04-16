@@ -39,12 +39,12 @@ export default () => {
           <ProtectedRoute isAllowed={isAdmin}>
             <Routes>
               <Route element={<Default />}>
-                <Route index path="/dashboard" element={<Dashboard />} />
-                <Route path="/games" element={<Games />} />
+                {/* <Route index path="/dashboard" element={<Dashboard />} /> */}
+                <Route index path="/games" element={<Games />} />
                 <Route path="/categories" element={<Categories />} />
                 <Route path="/officials" element={<Officials />} />
                 <Route path="/courts" element={<Courts />} />
-                <Route path="*" element={<Navigate to="/admin/dashboard" />} />
+                <Route path="*" element={<Navigate to="/admin/games" />} />
               </Route>
             </Routes>
           </ProtectedRoute>
