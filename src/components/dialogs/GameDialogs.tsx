@@ -352,6 +352,11 @@ export const GameFormDialog = (props: DialogProps) => {
                                   onChange={(event: any) =>
                                     handleFieldChange("time.start", event)
                                   }
+                                   slotProps={{
+                                    actionBar: {
+                                      actions: ["today", "accept", "clear"],
+                                    },
+                                  }}
                                   label="Time Start"
                                 />
                               </DemoContainer>
@@ -367,6 +372,11 @@ export const GameFormDialog = (props: DialogProps) => {
                                   onChange={(event: any) =>
                                     handleFieldChange("time.end", event)
                                   }
+                                  slotProps={{
+                                    actionBar: {
+                                      actions: ["today", "accept", "clear"],
+                                    },
+                                  }}
                                   label="Time End"
                                 />
                               </DemoContainer>
@@ -530,6 +540,11 @@ export const GameFormDialog = (props: DialogProps) => {
                             onChange={(event: any) =>
                               handleFieldChange("time.slot", event)
                             }
+                            slotProps={{
+                              actionBar: {
+                                actions: ["today", "accept", "clear"],
+                              },
+                            }}
                             label="Time Slot"
                           />
                         </DemoContainer>
