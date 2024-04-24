@@ -1,4 +1,10 @@
-import { collection, onSnapshot, query, where } from "firebase/firestore"
+import {
+  collection,
+  onSnapshot,
+  orderBy,
+  query,
+  where,
+} from "firebase/firestore"
 import { FIRESTORE_DB } from "../../api/firebase"
 import { useEffect, useState } from "react"
 import { Box, Button, Stack, Typography } from "@mui/material"
@@ -21,7 +27,10 @@ export default () => {
       query(
         ref,
         where("details.court", "==", user?.displayName),
-        where("statuses.active", "==", true)
+        where("statuses.active", "==", true),
+        where("statuses.current", "==", "current"),
+        where("time.end", "==", ""),
+        orderBy("time.start", "asc")
       ),
       {
         next: (snapshot) => {

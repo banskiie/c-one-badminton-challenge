@@ -352,7 +352,7 @@ export const GameFormDialog = (props: DialogProps) => {
                                   onChange={(event: any) =>
                                     handleFieldChange("time.start", event)
                                   }
-                                   slotProps={{
+                                  slotProps={{
                                     actionBar: {
                                       actions: ["today", "accept", "clear"],
                                     },
