@@ -102,9 +102,8 @@ export const GameFormDialog = (props: DialogProps) => {
         next: (snapshot) => {
           setCategories(
             snapshot.docs.map((doc: any) => ({
-              label: `${doc.data().category_name} (${
-                doc.data().category_type
-              })`,
+              label: `${doc.data().category_name} (${doc.data().category_type
+                })`,
               value: `${doc.data().category_name}.${doc.data().category_type}`,
             }))
           )
@@ -275,20 +274,20 @@ export const GameFormDialog = (props: DialogProps) => {
       // }
       id
         ? await updateDoc(doc(FIRESTORE_DB, `games/${id}`), {
-            ...payload,
-            time: {
-              start: time.start ? time.start.toDate() : null,
-              slot: time.slot ? time.slot.toDate() : null,
-              end: time.end ? time.end.toDate() : null,
-            },
-          })
+          ...payload,
+          time: {
+            start: time.start ? time.start.toDate() : null,
+            slot: time.slot ? time.slot.toDate() : null,
+            end: time.end ? time.end.toDate() : null,
+          },
+        })
         : await addDoc(collection(FIRESTORE_DB, "games"), {
-            ...payload,
-            time: {
-              ...payload.time,
-              slot: time.slot ? time.slot.toDate() : null,
-            },
-          })
+          ...payload,
+          time: {
+            ...payload.time,
+            slot: time.slot ? time.slot.toDate() : null,
+          },
+        })
       reset()
     } catch (error: unknown) {
       console.error(error)
@@ -1253,9 +1252,8 @@ export const ViewGameDialog = (props: DialogProps) => {
                     textTransform="capitalize"
                   >
                     {data?.details.category
-                      ? `${data?.details.category.split(".")[0]} (${
-                          data?.details.category.split(".")[1]
-                        })`
+                      ? `${data?.details.category.split(".")[0]} (${data?.details.category.split(".")[1]
+                      })`
                       : "-"}
                   </Typography>
                 </Box>
@@ -1461,49 +1459,49 @@ export const ViewGameDialog = (props: DialogProps) => {
                   <Typography variant="body2" width={"65%"} fontWeight={700}>
                     {!!(data?.time.start && data?.time.end)
                       ? (moment
+                        .duration(
+                          moment(data?.time.end.toDate()).diff(
+                            data?.time.start.toDate()
+                          )
+                        )
+                        .hours() > 0
+                        ? moment
                           .duration(
                             moment(data?.time.end.toDate()).diff(
                               data?.time.start.toDate()
                             )
                           )
-                          .hours() > 0
-                          ? moment
-                              .duration(
-                                moment(data?.time.end.toDate()).diff(
-                                  data?.time.start.toDate()
-                                )
-                              )
-                              .hours() + "hrs "
-                          : "") +
-                        (moment
+                          .hours() + "hrs "
+                        : "") +
+                      (moment
+                        .duration(
+                          moment(data?.time.end.toDate()).diff(
+                            data?.time.start.toDate()
+                          )
+                        )
+                        .minutes() > 0
+                        ? moment
                           .duration(
                             moment(data?.time.end.toDate()).diff(
                               data?.time.start.toDate()
                             )
                           )
-                          .minutes() > 0
-                          ? moment
-                              .duration(
-                                moment(data?.time.end.toDate()).diff(
-                                  data?.time.start.toDate()
-                                )
-                              )
-                              .minutes() + "mins "
-                          : "") +
-                        (moment
+                          .minutes() + "mins "
+                        : "") +
+                      (moment
+                        .duration(
+                          moment(data?.time.end.toDate()).diff(
+                            data?.time.start.toDate()
+                          )
+                        )
+                        .seconds() > 0 &&
+                        moment
                           .duration(
                             moment(data?.time.end.toDate()).diff(
                               data?.time.start.toDate()
                             )
                           )
-                          .seconds() > 0 &&
-                          moment
-                            .duration(
-                              moment(data?.time.end.toDate()).diff(
-                                data?.time.start.toDate()
-                              )
-                            )
-                            .seconds() + "sec")
+                          .seconds() + "sec")
                       : "-"}
                   </Typography>
                 </Box>
@@ -1540,10 +1538,9 @@ export const ViewGameDialog = (props: DialogProps) => {
                             }}
                           >
                             {hasPlayer2 &&
-                              `${
-                                data?.players.team_a.player_1.use_nickname
-                                  ? data?.players.team_a.player_1.nickname
-                                  : `${data?.players.team_a.player_1.first_name} ${data?.players.team_a.player_2.last_name}`
+                              `${data?.players.team_a.player_1.use_nickname
+                                ? data?.players.team_a.player_1.nickname
+                                : `${data?.players.team_a.player_1.first_name} ${data?.players.team_a.player_2.last_name}`
                               }`}
                           </Typography>
                           <Typography
@@ -1561,16 +1558,14 @@ export const ViewGameDialog = (props: DialogProps) => {
                             }}
                           >
                             {hasPlayer2
-                              ? `${
-                                  data?.players.team_a.player_2.use_nickname
-                                    ? data?.players.team_a.player_2.nickname
-                                    : `${data?.players.team_a.player_2.first_name} ${data?.players.team_a.player_2.last_name}`
-                                }`
-                              : `${
-                                  data?.players.team_a.player_1.use_nickname
-                                    ? data?.players.team_a.player_1.nickname
-                                    : `${data?.players.team_a.player_1.first_name} ${data?.players.team_a.player_1.last_name}`
-                                }`}
+                              ? `${data?.players.team_a.player_2.use_nickname
+                                ? data?.players.team_a.player_2.nickname
+                                : `${data?.players.team_a.player_2.first_name} ${data?.players.team_a.player_2.last_name}`
+                              }`
+                              : `${data?.players.team_a.player_1.use_nickname
+                                ? data?.players.team_a.player_1.nickname
+                                : `${data?.players.team_a.player_1.first_name} ${data?.players.team_a.player_1.last_name}`
+                              }`}
                           </Typography>
                           <Typography
                             variant="body2"
@@ -1587,16 +1582,14 @@ export const ViewGameDialog = (props: DialogProps) => {
                             }}
                           >
                             {hasPlayer2
-                              ? `${
-                                  data?.players.team_b.player_2.use_nickname
-                                    ? data?.players.team_b.player_2.nickname
-                                    : `${data?.players.team_b.player_2.first_name} ${data?.players.team_b.player_2.last_name}`
-                                }`
-                              : `${
-                                  data?.players.team_b.player_1.use_nickname
-                                    ? data?.players.team_b.player_1.nickname
-                                    : `${data?.players.team_b.player_1.first_name} ${data?.players.team_b.player_1.last_name}`
-                                }`}
+                              ? `${data?.players.team_b.player_2.use_nickname
+                                ? data?.players.team_b.player_2.nickname
+                                : `${data?.players.team_b.player_2.first_name} ${data?.players.team_b.player_2.last_name}`
+                              }`
+                              : `${data?.players.team_b.player_1.use_nickname
+                                ? data?.players.team_b.player_1.nickname
+                                : `${data?.players.team_b.player_1.first_name} ${data?.players.team_b.player_1.last_name}`
+                              }`}
                           </Typography>
                           <Typography
                             variant="body2"
@@ -1613,10 +1606,9 @@ export const ViewGameDialog = (props: DialogProps) => {
                             }}
                           >
                             {hasPlayer2 &&
-                              `${
-                                data?.players.team_b.player_1.use_nickname
-                                  ? data?.players.team_b.player_1.nickname
-                                  : `${data?.players.team_b.player_1.first_name} ${data?.players.team_b.player_2.last_name}`
+                              `${data?.players.team_b.player_1.use_nickname
+                                ? data?.players.team_b.player_1.nickname
+                                : `${data?.players.team_b.player_1.first_name} ${data?.players.team_b.player_2.last_name}`
                               }`}
                           </Typography>
                         </Stack>
@@ -1626,28 +1618,6 @@ export const ViewGameDialog = (props: DialogProps) => {
                           alignItems="center"
                           className={styles.scoresheet}
                         >
-                          <Stack>
-                            <Typography
-                              className={styles.a_box}
-                              variant="body1"
-                            ></Typography>
-                            <Typography
-                              className={styles.a_box}
-                              variant="body1"
-                            >
-                              0
-                            </Typography>
-                            <Typography
-                              className={styles.b_box}
-                              variant="body1"
-                            >
-                              0
-                            </Typography>
-                            <Typography
-                              className={styles.b_box}
-                              variant="body1"
-                            ></Typography>
-                          </Stack>
                           {data?.sets[`set_${current_set}`]?.scoresheet.map(
                             (round: any, index: number) => {
                               if (index > 35) {
@@ -1677,18 +1647,18 @@ export const ViewGameDialog = (props: DialogProps) => {
                                       onDoubleClick={() =>
                                         hasPlayer2
                                           ? onScoreClick(
-                                              index,
-                                              "a2",
-                                              current_set
-                                            )
+                                            index,
+                                            "a2",
+                                            current_set
+                                          )
                                           : onScoreClick(
-                                              index,
-                                              "a1",
-                                              current_set
-                                            )
+                                            index,
+                                            "a1",
+                                            current_set
+                                          )
                                       }
                                     >
-                                      {round.scorer ==
+                                      {index == 0 ? 0 : round.scorer ==
                                         (hasPlayer2 ? "a2" : "a1") &&
                                         round.current_a_score}
                                     </Typography>
@@ -1699,7 +1669,7 @@ export const ViewGameDialog = (props: DialogProps) => {
                                         onScoreClick(index, "b1", current_set)
                                       }
                                     >
-                                      {round.scorer == "b1" &&
+                                      {index == 0 ? 0 : round.scorer == "b1" &&
                                         round.current_b_score}
                                     </Typography>
                                     <Typography
@@ -1722,108 +1692,108 @@ export const ViewGameDialog = (props: DialogProps) => {
                       </Stack>
                       {data?.sets[`set_${current_set}`]?.scoresheet.length >
                         31 && (
-                        <Stack direction="row" alignItems="center">
-                          {/* Players */}
-                          <Stack
-                            justifyContent="center"
-                            className={styles.players}
-                          >
-                            <Typography
-                              variant="body2"
-                              className={styles.a_player}
+                          <Stack direction="row" alignItems="center">
+                            {/* Players */}
+                            <Stack
+                              justifyContent="center"
+                              className={styles.players}
                             >
-                              {!!(
-                                data?.players.team_a.player_2.first_name &&
-                                data?.players.team_a.player_2.last_name
-                              )
-                                ? `${data?.players.team_a.player_1.first_name}
+                              <Typography
+                                variant="body2"
+                                className={styles.a_player}
+                              >
+                                {!!(
+                                  data?.players.team_a.player_2.first_name &&
+                                  data?.players.team_a.player_2.last_name
+                                )
+                                  ? `${data?.players.team_a.player_1.first_name}
                                 ${data?.players.team_a.player_1.last_name}`
-                                : `${data?.players.team_a.player_2.first_name}
+                                  : `${data?.players.team_a.player_2.first_name}
                                 ${data?.players.team_a.player_2.last_name}`}
-                            </Typography>
-                            <Typography
-                              variant="body2"
-                              className={styles.a_player}
-                            >
-                              {!!(
-                                data?.players.team_a.player_2.first_name &&
-                                data?.players.team_a.player_2.last_name
-                              )
-                                ? `${data?.players.team_a.player_2.first_name}
+                              </Typography>
+                              <Typography
+                                variant="body2"
+                                className={styles.a_player}
+                              >
+                                {!!(
+                                  data?.players.team_a.player_2.first_name &&
+                                  data?.players.team_a.player_2.last_name
+                                )
+                                  ? `${data?.players.team_a.player_2.first_name}
                                 ${data?.players.team_a.player_2.last_name}`
-                                : `${data?.players.team_a.player_1.first_name}
+                                  : `${data?.players.team_a.player_1.first_name}
                                 ${data?.players.team_a.player_1.last_name}`}
-                            </Typography>
-                            <Typography
-                              variant="body2"
-                              className={styles.b_player}
+                              </Typography>
+                              <Typography
+                                variant="body2"
+                                className={styles.b_player}
+                              >
+                                {data?.players.team_b.player_1.first_name}{" "}
+                                {data?.players.team_b.player_1.last_name}
+                              </Typography>
+                              <Typography
+                                variant="body2"
+                                className={styles.b_player}
+                              >
+                                {data?.players.team_b.player_2.first_name}{" "}
+                                {data?.players.team_b.player_2.last_name}
+                              </Typography>
+                            </Stack>
+                            {/* Scoresheet */}
+                            <Stack
+                              direction="row"
+                              alignItems="center"
+                              className={styles.scoresheet}
                             >
-                              {data?.players.team_b.player_1.first_name}{" "}
-                              {data?.players.team_b.player_1.last_name}
-                            </Typography>
-                            <Typography
-                              variant="body2"
-                              className={styles.b_player}
-                            >
-                              {data?.players.team_b.player_2.first_name}{" "}
-                              {data?.players.team_b.player_2.last_name}
-                            </Typography>
-                          </Stack>
-                          {/* Scoresheet */}
-                          <Stack
-                            direction="row"
-                            alignItems="center"
-                            className={styles.scoresheet}
-                          >
-                            {data?.sets[`set_${index + 1}`]?.scoresheet.map(
-                              (round: any, index: number) => {
-                                if (index <= 35) {
-                                  return
-                                } else {
-                                  let hasPlayer2 = !!(
-                                    data?.players.team_a.player_2.first_name &&
-                                    data?.players.team_a.player_2.last_name
-                                  )
-                                  return (
-                                    <Stack key={index}>
-                                      <Typography
-                                        variant="body2"
-                                        className={styles.a_box}
-                                      >
-                                        {round.scorer ==
-                                          (hasPlayer2 ? "a1" : "a2") &&
-                                          round.current_a_score}
-                                      </Typography>
-                                      <Typography
-                                        variant="body2"
-                                        className={styles.a_box}
-                                      >
-                                        {round.scorer ==
-                                          (hasPlayer2 ? "a2" : "a1") &&
-                                          round.current_a_score}
-                                      </Typography>
-                                      <Typography
-                                        variant="body2"
-                                        className={styles.b_box}
-                                      >
-                                        {round.scorer == "b1" &&
-                                          round.current_b_score}
-                                      </Typography>
-                                      <Typography
-                                        variant="body2"
-                                        className={styles.b_box}
-                                      >
-                                        {round.scorer == "b2" &&
-                                          round.current_b_score}
-                                      </Typography>
-                                    </Stack>
-                                  )
+                              {data?.sets[`set_${index + 1}`]?.scoresheet.map(
+                                (round: any, index: number) => {
+                                  if (index <= 35) {
+                                    return
+                                  } else {
+                                    let hasPlayer2 = !!(
+                                      data?.players.team_a.player_2.first_name &&
+                                      data?.players.team_a.player_2.last_name
+                                    )
+                                    return (
+                                      <Stack key={index}>
+                                        <Typography
+                                          variant="body2"
+                                          className={styles.a_box}
+                                        >
+                                          {round.scorer ==
+                                            (hasPlayer2 ? "a1" : "a2") &&
+                                            round.current_a_score}
+                                        </Typography>
+                                        <Typography
+                                          variant="body2"
+                                          className={styles.a_box}
+                                        >
+                                          {round.scorer ==
+                                            (hasPlayer2 ? "a2" : "a1") &&
+                                            round.current_a_score}
+                                        </Typography>
+                                        <Typography
+                                          variant="body2"
+                                          className={styles.b_box}
+                                        >
+                                          {round.scorer == "b1" &&
+                                            round.current_b_score}
+                                        </Typography>
+                                        <Typography
+                                          variant="body2"
+                                          className={styles.b_box}
+                                        >
+                                          {round.scorer == "b2" &&
+                                            round.current_b_score}
+                                        </Typography>
+                                      </Stack>
+                                    )
+                                  }
                                 }
-                              }
-                            )}
+                              )}
+                            </Stack>
                           </Stack>
-                        </Stack>
-                      )}
+                        )}
                     </Stack>
                   )
                 }

@@ -1,4 +1,4 @@
-import { ReactNode } from "react"
+import { ReactNode, useEffect } from "react"
 import { Route, Routes, Navigate, Outlet } from "react-router-dom"
 import Login from "../auth/Login"
 import { useAuthStore } from "../store/store"
@@ -9,6 +9,7 @@ import Default from "../layouts/Default"
 import Categories from "../views/admin/Categories"
 import Officials from "../views/admin/Officials"
 import Courts from "../views/admin/Courts"
+import { FIREBASE_AUTH } from "../api/firebase"
 
 type ProtectedRouteProps = {
   isAllowed: boolean
@@ -30,6 +31,10 @@ const ProtectedRoute = ({
 export default () => {
   const isAdmin = useAuthStore((state) => state.isAdmin)
   const user = useAuthStore((state) => state.user)
+
+  useEffect(() => {
+    console.log(user)
+  }, [user])
   return (
     <Routes>
       <Route path="/" element={<Login />} />

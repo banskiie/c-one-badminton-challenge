@@ -11,7 +11,7 @@ export default () => {
 
   const signOut = async () => {
     try {
-      FIREBASE_AUTH.signOut()
+      await FIREBASE_AUTH.signOut()
       updateUser(null)
       updateIsAdmin(false)
     } catch (error: any) {

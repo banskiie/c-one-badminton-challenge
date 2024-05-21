@@ -28,9 +28,7 @@ export default () => {
         ref,
         where("details.court", "==", user?.displayName),
         where("statuses.active", "==", true),
-        where("statuses.current", "==", "current"),
-        where("time.end", "==", ""),
-        orderBy("time.start", "asc")
+        orderBy("statuses.focus", "asc")
       ),
       {
         next: (snapshot) => {
