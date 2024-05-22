@@ -92,7 +92,13 @@ export default () => {
               <Stack className={styles.players}>
                 <Box
                   className={styles.player_container}
-                  sx={{ height: hasPlayer2 ? "50%" : "100%" }}
+                  sx={{
+                    height: hasPlayer2 ? "50%" : "100%",
+                    backgroundImage:
+                      currentSet.scoresheet[currentSet.scoresheet.length - 1]?.scorer === "a1" || currentSet.winner === "b"
+                        ? "linear-gradient(to right, #ed6c02 0%, transparent 100%)"
+                        : "none",
+                  }}
                 >
                   <Typography
                     className={
@@ -100,13 +106,6 @@ export default () => {
                         ? styles.player
                         : `${styles.player} ${styles.single}`
                     }
-                    sx={{
-                      color:
-                        currentSet.scoresheet[currentSet.scoresheet.length - 1]
-                          ?.scorer === "a1" || currentSet.winner === "a"
-                          ? "#ed6c02"
-                          : "white",
-                    }}
                   >
                     {data?.players.team_a.player_1.use_nickname
                       ? data?.players.team_a.player_1.nickname
@@ -114,17 +113,17 @@ export default () => {
                   </Typography>
                 </Box>
                 {hasPlayer2 && (
-                  <Box className={styles.player_container}>
+                  <Box
+                    className={styles.player_container}
+                    sx={{
+                      backgroundImage:
+                        currentSet.scoresheet[currentSet.scoresheet.length - 1]?.scorer === "a2" || currentSet.winner === "b"
+                          ? "linear-gradient(to right, #ed6c02 0%, transparent 100%)"
+                          : "none",
+                    }}
+                  >
                     <Typography
                       className={styles.player}
-                      sx={{
-                        color:
-                          currentSet.scoresheet[
-                            currentSet.scoresheet.length - 1
-                          ]?.scorer === "a2" || currentSet.winner === "a"
-                            ? "#ed6c02"
-                            : "white",
-                      }}
                     >
                       {data?.players.team_a.player_2.use_nickname
                         ? data?.players.team_a.player_2.nickname
@@ -171,7 +170,13 @@ export default () => {
               <Stack className={styles.players}>
                 <Box
                   className={styles.player_container}
-                  sx={{ height: hasPlayer2 ? "50%" : "100%" }}
+                  sx={{
+                    height: hasPlayer2 ? "50%" : "100%",
+                    backgroundImage:
+                      currentSet.scoresheet[currentSet.scoresheet.length - 1]?.scorer === "b1" || currentSet.winner === "b"
+                        ? "linear-gradient(to right, #1F7D1F 0%, transparent 100%)"
+                        : "none",
+                  }}
                 >
                   <Typography
                     className={
@@ -179,13 +184,6 @@ export default () => {
                         ? styles.player
                         : `${styles.player} ${styles.single}`
                     }
-                    sx={{
-                      color:
-                        currentSet.scoresheet[currentSet.scoresheet.length - 1]
-                          ?.scorer === "b1" || currentSet.winner === "b"
-                          ? "#1F7D1F"
-                          : "white",
-                    }}
                   >
                     {data?.players.team_b.player_1.use_nickname
                       ? data?.players.team_b.player_1.nickname
@@ -193,17 +191,16 @@ export default () => {
                   </Typography>
                 </Box>
                 {hasPlayer2 && (
-                  <Box className={styles.player_container}>
+                  <Box
+                    className={styles.player_container}
+                    sx={{
+                      backgroundImage:
+                        currentSet.scoresheet[currentSet.scoresheet.length - 1]?.scorer === "b2" || currentSet.winner === "b"
+                          ? "linear-gradient(to right, #1F7D1F 0%, transparent 100%)"
+                          : "none",
+                    }}>
                     <Typography
                       className={styles.player}
-                      sx={{
-                        color:
-                          currentSet.scoresheet[
-                            currentSet.scoresheet.length - 1
-                          ]?.scorer === "b2" || currentSet.winner === "b"
-                            ? "#1F7D1F"
-                            : "white",
-                      }}
                     >
                       {data?.players.team_b.player_2.use_nickname
                         ? data?.players.team_b.player_2.nickname
